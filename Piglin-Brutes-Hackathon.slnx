@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="frontend/frontend.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="Piglin-Brutes-Hackathon.AppHost/Piglin-Brutes-Hackathon.AppHost.csproj" />
+  <Project Path="Piglin-Brutes-Hackathon.Server/Piglin-Brutes-Hackathon.Server.csproj" />
+</Solution>
