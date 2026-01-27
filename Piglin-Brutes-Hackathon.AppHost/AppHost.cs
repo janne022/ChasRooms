@@ -7,9 +7,21 @@ var server = builder.AddProject<Projects.Piglin_Brutes_Hackathon_Server>("server
     .WaitFor(cache)
     .WithHttpHealthCheck("/health")
     .WithExternalHttpEndpoints();
+var postgresPassword = builder.AddParameter("postgres-password", "postgres");
+var postgres = builder.AddPostgres("database", password: postgresPassword)
+    .WithContainerName("piglin-db")
+    .WithLifetime(ContainerLifetime.Persistent)
+    .WithHostPort(port: 5432)
+    .WithDataVolume()
+    .WithPgAdmin(pg =>
+    {
+        pg.WithLifetime(ContainerLifetime.Persistent);
+        pg.WithVolume("pg-admin", "/var/lib/pgadmin");
+    });
 
 var webfrontend = builder.AddViteApp("webfrontend", "../frontend")
     .WithReference(server)
+    .WithReference(postgres)
     .WaitFor(server);
 
 server.PublishWithContainerFiles(webfrontend, "wwwroot");
