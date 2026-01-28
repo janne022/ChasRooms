@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Piglin-Brutes-Hackathon.Server\Piglin-Brutes-Hackathon.Server.csproj" />
+    <ProjectReference Include="..\ChasRooms.Server\ChasRooms.Server.csproj" />
   </ItemGroup>
 
   <ItemGroup>
