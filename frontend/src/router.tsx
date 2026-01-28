@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router";
 import App from "@/App";
 import Home from "@pages/Home";
+import FilterDemo from "./pages/FilterDemo";
 
 export const router = createBrowserRouter([
     {
@@ -11,6 +12,10 @@ export const router = createBrowserRouter([
             {
                 index: true,
                 element: <Home />,
+            },
+            {
+                path: "/filter-demo",
+                element: <FilterDemo />,
             },
         ],
     },
