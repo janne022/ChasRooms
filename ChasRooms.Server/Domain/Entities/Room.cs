@@ -5,8 +5,8 @@
         public int Id { get; set; }
         public string RoomName { get; set; } = null!;
         public int Capacity { get; set; }
-        public string features { get; set; } = null!;
+        public string Features { get; set; } = null!;
 
-        ICollection<Booking> Bookings { get; set; } = new List<Booking>();
+        public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
     }
 }
