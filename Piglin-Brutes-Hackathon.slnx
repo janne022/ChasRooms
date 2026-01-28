@@ -4,5 +4,5 @@
     <Deploy />
   </Project>
   <Project Path="Piglin-Brutes-Hackathon.AppHost/Piglin-Brutes-Hackathon.AppHost.csproj" />
-  <Project Path="Piglin-Brutes-Hackathon.Server/Piglin-Brutes-Hackathon.Server.csproj" />
+  <Project Path="ChasRooms.Server/ChasRooms.Server.csproj" />
 </Solution>
