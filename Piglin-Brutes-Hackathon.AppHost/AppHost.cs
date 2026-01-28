@@ -1,3 +1,5 @@
+using YamlDotNet.Core.Tokens;
+
 var builder = DistributedApplication.CreateBuilder(args);
 
 var cache = builder.AddRedis("cache");
@@ -23,10 +25,13 @@ var server = builder.AddProject<Projects.ChasRooms_Server>("server")
     .WithExternalHttpEndpoints();
 
 var webfrontend = builder.AddViteApp("webfrontend", "../frontend")
-    .WithEndpoint("http", (endpointAnnotation) => endpointAnnotation.Port = 5173)
     .WithReference(server)
     .WaitFor(server)
-    .WithExternalHttpEndpoints();
+    .WithEndpoint("http", endpoint =>
+    {
+        endpoint.Port = 5173;
+    })
+    .WithEnvironment("VITE_API_URL", server.GetEndpoint("http"));
 
 server.PublishWithContainerFiles(webfrontend, "wwwroot");
 
