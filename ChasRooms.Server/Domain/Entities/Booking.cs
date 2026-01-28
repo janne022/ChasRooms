@@ -15,7 +15,7 @@
         public string OwnerId { get; set; } = null!;
         public User Owner { get; set; } = null!;
 
-        ICollection<UserBooking> UserBookings { get; set; } = new List<UserBooking>();
+        public ICollection<UserBooking> UserBookings { get; set; } = new List<UserBooking>();
 
     }
 }
