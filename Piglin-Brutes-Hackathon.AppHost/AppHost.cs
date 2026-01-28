@@ -3,10 +3,9 @@ var builder = DistributedApplication.CreateBuilder(args);
 var cache = builder.AddRedis("cache");
 
 var postgresPassword = builder.AddParameter("postgres-password", "postgres");
-var postgres = builder.AddPostgres("database", password: postgresPassword)
+var postgres = builder.AddPostgres("database", password: postgresPassword, port: 5432)
     .WithContainerName("piglin-db")
     .WithLifetime(ContainerLifetime.Persistent)
-    .WithHostPort(port: 5432)
     .WithDataVolume()
     .WithPgAdmin(pg =>
     {

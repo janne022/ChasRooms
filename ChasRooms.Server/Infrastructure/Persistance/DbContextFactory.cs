@@ -10,7 +10,7 @@ namespace ChasRooms.Server.Infrastructure.Persistance
         {
             IConfigurationRoot config = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
+                .AddJsonFile("appsettings.Development.json")
                 .Build();
 
             var connectionString = config.GetConnectionString("DefaultConnection");
