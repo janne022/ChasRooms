@@ -9,7 +9,6 @@ using System;
 using System.Security.Claims;
 using Wolverine;
 using Wolverine.Attributes;
-using static Google.Apis.Requests.BatchRequest;
 
 namespace ChasRooms.Server.Features.Bookings.CreateBooking
 {
@@ -46,6 +45,7 @@ namespace ChasRooms.Server.Features.Bookings.CreateBooking
                 .WithMessage("A booking can be max 3 hours long.");
         }
     }
+
     public class CreateBookingEndpoint : Endpoint<CreateBookingRequest, CreateBookingResponse>
     {
         private readonly IMessageBus _bus;
@@ -81,8 +81,8 @@ namespace ChasRooms.Server.Features.Bookings.CreateBooking
 
             try
             {
-            var response = await _bus.InvokeAsync<CreateBookingResponse>(command, ct);
-            await Send.OkAsync(response, ct);
+                var response = await _bus.InvokeAsync<CreateBookingResponse>(command, ct);
+                await Send.OkAsync(response, ct);
             }
             catch (ApplicationException ex)
             {
@@ -90,17 +90,17 @@ namespace ChasRooms.Server.Features.Bookings.CreateBooking
             }
         }
     }
+
     public static class CreateBookingHandler
     {
         [Transactional]
         public static async Task<CreateBookingResponse> Handle(CreateBookingCommand cmd, RoomDbContext db, CancellationToken ct)
         {
-
             var isOccupied = await db.Bookings.AnyAsync(b =>
-            b.RoomId == cmd.RoomId &&
-            cmd.StartTime < b.BookingEndTime &&
-            cmd.EndTime > b.BookingStartTime,
-            ct);
+                b.RoomId == cmd.RoomId &&
+                cmd.StartTime < b.BookingEndTime &&
+                cmd.EndTime > b.BookingStartTime,
+                ct);
 
             if (isOccupied)
             {

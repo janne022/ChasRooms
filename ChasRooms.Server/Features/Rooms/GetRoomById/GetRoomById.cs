@@ -71,6 +71,7 @@ namespace ChasRooms.Server.Features.Rooms.GetRoomById
                     .OrderBy(b => b.BookingStartTime)
                     .Select(b => new BookingSlotDto
                     {
+                        Id = b.Id,
                         Start = b.BookingStartTime,
                         End = b.BookingEndTime
                     })
