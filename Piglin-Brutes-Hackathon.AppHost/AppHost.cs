@@ -1,3 +1,4 @@
+using Google.Protobuf.WellKnownTypes;
 using YamlDotNet.Core.Tokens;
 
 var builder = DistributedApplication.CreateBuilder(args);
@@ -28,6 +29,9 @@ var server = builder.AddProject<Projects.ChasRooms_Server>("server")
     .WithExternalHttpEndpoints()
     .WithEnvironment("Google:ClientId", googleClientId)
     .WithEnvironment("Jwt:Key", jwtKey);
+
+// Set text for urls
+server.WithUrl($"{server.GetEndpoint("https")}/swagger/index.html", "Swagger");
 
 var webfrontend = builder.AddViteApp("webfrontend", "../frontend")
     .WithReference(server)
