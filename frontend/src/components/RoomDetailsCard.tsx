@@ -1,28 +1,38 @@
 import { UsersIcon } from "lucide-react";
 import RoomEqupmentList from "./RoomEqupmentList";
 
-export default function RoomDetailsCard() {
+type RoomDetailsCardProps = {
+    preview: string;
+    name: string;
+    isAvailable: boolean;
+    peopleNumber: number;
+    equipment: string[];
+};
+
+export default function RoomDetailsCard({
+    preview,
+    name,
+    isAvailable,
+    peopleNumber,
+    equipment,
+}: RoomDetailsCardProps) {
     return (
         <article>
-            <img
-                className="w-full"
-                src="https://placehold.co/400x200/png"
-                alt=""
-            />
+            <img className="w-full" src={preview} alt="" />
 
             <div className="grid gap-y-4">
                 <div className="flex justify-between">
-                    <h2>Room Name</h2> <span>Status Badge</span>
+                    <h2>{name}</h2> <span>{isAvailable}</span>
                 </div>
 
                 <span className="flex items-center gap-x-2">
                     <UsersIcon />
-                    42 People
+                    {peopleNumber} People
                 </span>
 
                 <div>
                     <h3>Resurser: </h3>
-                    <RoomEqupmentList equipment={["Room", "Stuff"]} />
+                    <RoomEqupmentList equipment={equipment} />
                 </div>
             </div>
         </article>
