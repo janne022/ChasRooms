@@ -1,0 +1,82 @@
+[
+  {
+    "roomNumber": 1,
+    "roomName": "Atlas",
+    "capacity": 38,
+    "availability": "Available",
+    "equipment": ["TV", "Whiteboard"],
+    "image": "/room.jpg"
+  },
+  {
+    "roomNumber": 2,
+    "roomName": "Orion",
+    "capacity": 23,
+    "availability": "Available soon",
+    "equipment": ["HDMI-cable"],
+    "image": "/room.jpg"
+  },
+  {
+    "roomNumber": 3,
+    "roomName": "Apollo",
+    "capacity": 48,
+    "availability": "Occupied",
+    "equipment": ["TV", "Projector", "Speaker"],
+    "image": "/room.jpg"
+  },
+  {
+    "roomNumber": 4,
+    "roomName": "Nova",
+    "capacity": 4,
+    "availability": "Available",
+    "equipment": ["Whiteboard"],
+    "image": "/room.jpg"
+  },
+  {
+    "roomNumber": 5,
+    "roomName": "Zenith",
+    "capacity": 39,
+    "availability": "Occupied soon",
+    "equipment": ["TV", "HDMI-cable"],
+    "image": "/room.jpg"
+  },
+  {
+    "roomNumber": 6,
+    "roomName": "Vega",
+    "capacity": 35,
+    "availability": "Available",
+    "equipment": ["Projector", "Whiteboard"],
+    "image": "/room.jpg"
+  },
+  {
+    "roomNumber": 7,
+    "roomName": "Cosmos",
+    "capacity": 32,
+    "availability": "Occupied",
+    "equipment": ["TV"],
+    "image": "/room.jpg"
+  },
+  {
+    "roomNumber": 8,
+    "roomName": "Pulse",
+    "capacity": 6,
+    "availability": "Occupied",
+    "equipment": ["HDMI-cable"],
+    "image": "/room.jpg"
+  },
+  {
+    "roomNumber": 9,
+    "roomName": "Echo",
+    "capacity": 15,
+    "availability": "Occupied soon",
+    "equipment": ["Whiteboard", "Speaker"],
+    "image": "/room.jpg"
+  },
+  {
+    "roomNumber": 10,
+    "roomName": "Horizon",
+    "capacity": 27,
+    "availability": "Available soon",
+    "equipment": ["TV", "Projector"],
+    "image": "/room.jpg"
+  }
+]
