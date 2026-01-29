@@ -53,21 +53,26 @@ namespace ChasRooms.Server.Features.Rooms.GetAllRooms
                     b.BookingEndTime > now));
             }
 
-            var rooms = await dbQuery.ToListAsync(ct);
+            var roomDataList = await dbQuery
+                .Select(r => new
+                {
+                    Room = r,
+                    IsOccupied = db.Bookings.Any(b =>
+                        b.RoomId == r.Id &&
+                        b.BookingStartTime <= now &&
+                        b.BookingEndTime > now)
+                })
+                .ToListAsync(ct);
 
-            return rooms.Select(r => new RoomDto
+            return roomDataList.Select(rd => new RoomDto
             {
-                Id = r.Id,
-                Name = r.RoomName,
-                Capacity = r.Capacity,
-                Resources = string.IsNullOrEmpty(r.Features)
+                Id = rd.Room.Id,
+                Name = rd.Room.RoomName,
+                Capacity = rd.Room.Capacity,
+                Resources = string.IsNullOrEmpty(rd.Room.Features)
                             ? new List<string>()
-                            : r.Features.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList(),
-
-                IsOccupied = db.Bookings.Any(b =>
-                    b.RoomId == r.Id &&
-                    b.BookingStartTime <= now &&
-                    b.BookingEndTime > now)
+                            : rd.Room.Features.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList(),
+                IsOccupied = rd.IsOccupied
             }).ToList();
         }
     }
