@@ -4,13 +4,16 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RouterProvider } from "react-router";
 import { router } from "@/router";
 import "@/style.css";
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const client = new QueryClient();
 
 createRoot(document.getElementById("root")!).render(
     <StrictMode>
         <QueryClientProvider client={client}>
-            <RouterProvider router={router} />
+            <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+                <RouterProvider router={router} />
+            </GoogleOAuthProvider>
         </QueryClientProvider>
     </StrictMode>,
 );

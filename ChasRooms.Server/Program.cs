@@ -1,3 +1,14 @@
+using ChasRooms.Server.Domain.Entities;
+using ChasRooms.Server.Infrastructure.Persistance;
+using FastEndpoints;
+using FastEndpoints.Swagger;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using System;
+using Wolverine;
+using Wolverine.EntityFrameworkCore;
+using Wolverine.Postgresql;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add service defaults & Aspire client integrations.
@@ -11,6 +22,48 @@ builder.Services.AddProblemDetails();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+var connectionString = builder.Configuration.GetConnectionString("chasrooms-db");
+
+// Postgres integration
+builder.Services.AddDbContextWithWolverineIntegration<RoomDbContext>(options => options.UseNpgsql(connectionString));
+
+// Wolverine options
+builder.Host.UseWolverine(opt =>
+{
+    opt.PersistMessagesWithPostgresql(connectionString!);
+    opt.UseEntityFrameworkCoreTransactions();
+    opt.Policies.UseDurableInboxOnAllListeners();
+    opt.Policies.UseDurableOutboxOnAllSendingEndpoints();
+});
+
+// Fastendpoints and Swagger
+builder.Services.AddFastEndpoints();
+builder.Services.SwaggerDocument(o =>
+{
+    o.DocumentSettings = s =>
+    {
+        s.Title = "ChasRooms API";
+        s.Version = "v1";
+        s.Description = "APIs for ChasRooms";
+
+    };
+});
+
+// Auth
+builder.Services.AddIdentity<User, IdentityRole>()
+    .AddEntityFrameworkStores<RoomDbContext>()
+    .AddDefaultTokenProviders();
+
+// Cors fix to allow localhost
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -23,27 +76,15 @@ if (app.Environment.IsDevelopment())
 
 app.UseOutputCache();
 
-string[] summaries = ["Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"];
-
-var api = app.MapGroup("/api");
-api.MapGet("weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.CacheOutput(p => p.Expire(TimeSpan.FromSeconds(5)))
-.WithName("GetWeatherForecast");
-
 app.MapDefaultEndpoints();
 
 app.UseFileServer();
+
+// Set prefix to /api for all routes
+app.UseFastEndpoints(c => c.Endpoints.RoutePrefix = "api");
+
+// Swagger
+app.UseSwaggerGen();
 
 app.Run();
 
