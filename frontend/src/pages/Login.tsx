@@ -4,6 +4,8 @@ import { api } from '../api/axios';
 import type { LoginResponse, GoogleLoginRequest } from '../types/schema';
 export default function Login() {
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
 
     const handleGoogleSuccess = async (credentialResponse: any) => {
         try {
@@ -17,8 +19,11 @@ export default function Login() {
                 localStorage.setItem('token', res.data.token);
             }
 
+            // Probs replace these with toaster notification or something
             console.log("Login Success!", res.data);
-            navigate('/');
+
+            // Send them backto where they came from
+            navigate(from, { replace: true });
         } catch (error) {
             console.error("Login failed:", error);
         }
