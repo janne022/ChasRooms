@@ -1,11 +1,12 @@
-﻿namespace ChasRooms.Server.Domain.DTOs
+﻿using ChasRooms.Server.Domain.Entities;
+
+namespace ChasRooms.Server.Domain.DTOs
 {
     public class RoomDto
     {
         public int Id { get; set; }
-        public string Name { get; set; } = null!;
+        public string RoomName { get; set; } = null!;
         public int Capacity { get; set; }
-        public List<string> Resources { get; set; } = new();
-        public bool IsOccupied { get; set; }
+        public string Features { get; set; } = null!;
     }
 }
