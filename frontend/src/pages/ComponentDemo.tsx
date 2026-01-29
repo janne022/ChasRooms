@@ -1,6 +1,6 @@
-import RoomDetailsCard from "@/components/RoomDetailsCard";
-import RoomFilter from "@/components/RoomFilter";
-import RoomList from "@/components/RoomList";
+import RoomDetailsCard from "@/components/room/RoomDetailsCard";
+import RoomFilter from "@/components/room/RoomFilter";
+import RoomList from "@/components/room/RoomList";
 
 export default function ComponentDemo() {
     return (
