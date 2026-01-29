@@ -10,8 +10,7 @@
 
 
         public int RoomId { get; set; }
-        public Room Room { get; set; } = null!;
-
+        public Room Room { get; set; } = null!; 
         public string OwnerId { get; set; } = null!;
         public User Owner { get; set; } = null!;
 
