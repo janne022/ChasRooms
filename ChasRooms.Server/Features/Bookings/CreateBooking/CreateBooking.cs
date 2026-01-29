@@ -124,8 +124,6 @@ namespace ChasRooms.Server.Features.Bookings.CreateBooking
                 BookingEndTime = cmd.EndTime
             };
 
-            
-
             db.Bookings.Add(booking);
 
             return new CreateBookingResponse
