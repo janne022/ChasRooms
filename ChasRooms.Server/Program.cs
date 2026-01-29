@@ -59,15 +59,18 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:5173")
+        policy.SetIsOriginAllowed(origin => true) // Allow any origin for development
               .AllowAnyHeader()
-              .AllowAnyMethod();
+              .AllowAnyMethod()
+              .AllowCredentials(); // Often needed for auth cookies/headers
     });
 });
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.UseExceptionHandler();
+
+app.UseCors("AllowFrontend");
 
 if (app.Environment.IsDevelopment())
 {
