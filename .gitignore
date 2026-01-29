@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/ChasRooms.Server/appsettings.Development.json
+Piglin-Brutes-Hackathon.AppHost/appsettings.Development.json
+Piglin-Brutes-Hackathon.AppHost/appsettings.Development.json

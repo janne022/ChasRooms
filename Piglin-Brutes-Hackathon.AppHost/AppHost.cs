@@ -1,5 +1,6 @@
 using Google.Protobuf.WellKnownTypes;
 using YamlDotNet.Core.Tokens;
+using Microsoft.Extensions.Configuration;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
@@ -8,8 +9,9 @@ var jwtKey = builder.Configuration["Jwt:Key"];
 
 var cache = builder.AddRedis("cache");
 
+var postgresPort = builder.Configuration.GetValue<int>("Postgres:HostPort", 5432);
 var postgresPassword = builder.AddParameter("postgres-password", "postgres");
-var postgres = builder.AddPostgres("database", password: postgresPassword, port: 5432)
+var postgres = builder.AddPostgres("database", password: postgresPassword, port: postgresPort)
     .WithContainerName("piglin-db")
     .WithLifetime(ContainerLifetime.Persistent)
     .WithDataVolume()

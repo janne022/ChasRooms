@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router";
 import App from "@/App";
 import Home from "@pages/Home";
+import ComponentDemo from "./pages/ComponentDemo";
 import Login from "@pages/Login";
 import { RequireAuth, RequireGuest } from "./components/auth/AuthGuard";
 
@@ -13,6 +14,10 @@ export const router = createBrowserRouter([
             {
                 index: true,
                 element: <Home />,
+            },
+            {
+                path: "/demo",
+                element: <ComponentDemo />,
             },
         ],
     },
