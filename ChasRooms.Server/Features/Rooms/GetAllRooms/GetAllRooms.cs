@@ -67,11 +67,9 @@ namespace ChasRooms.Server.Features.Rooms.GetAllRooms
             return roomDataList.Select(rd => new RoomDto
             {
                 Id = rd.Room.Id,
-                Name = rd.Room.RoomName,
+                RoomName = rd.Room.RoomName,
                 Capacity = rd.Room.Capacity,
-                Resources = string.IsNullOrEmpty(rd.Room.Features)
-                            ? new List<string>()
-                            : rd.Room.Features.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList(),
+                Features = rd.Room.Features,
                 IsOccupied = rd.IsOccupied
             }).ToList();
         }
