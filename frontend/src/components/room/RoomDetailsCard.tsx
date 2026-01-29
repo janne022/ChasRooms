@@ -1,6 +1,6 @@
 import { UsersIcon } from "lucide-react";
 import RoomEqupmentList from "./RoomEqupmentList";
-import Button from "./ui/Button";
+import Button from "@components/ui/Button";
 
 type RoomDetailsCardProps = {
     preview: string;
