@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Piglin-Brutes-Hackathon.AppHost", "Piglin-Brutes-Hackathon.AppHost\Piglin-Brutes-Hackathon.AppHost.csproj", "{C6B3FFE5-0B9B-194C-37B2-6AD7CCA6E034}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Piglin-Brutes-Hackathon.Server", "Piglin-Brutes-Hackathon.Server\Piglin-Brutes-Hackathon.Server.csproj", "{2AE52AC1-B82D-88C0-9445-7220A3A793D6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C6B3FFE5-0B9B-194C-37B2-6AD7CCA6E034}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6B3FFE5-0B9B-194C-37B2-6AD7CCA6E034}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6B3FFE5-0B9B-194C-37B2-6AD7CCA6E034}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6B3FFE5-0B9B-194C-37B2-6AD7CCA6E034}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AE52AC1-B82D-88C0-9445-7220A3A793D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AE52AC1-B82D-88C0-9445-7220A3A793D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AE52AC1-B82D-88C0-9445-7220A3A793D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AE52AC1-B82D-88C0-9445-7220A3A793D6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EBE601AD-ED5E-4B11-B8FB-3082E9BD87B9}
+	EndGlobalSection
+EndGlobal

@@ -68,7 +68,7 @@ namespace ChasRooms.Server.Features.Bookings.ViewMyBookings
                         Id = b.Room.Id,
                         Capacity = b.Room.Capacity,
                         Features = b.Room.Features,
-                        RoomName = b.Room.RoomName
+                    RoomName = b.Room.RoomName
                     },
                     Users = b.UserBookings.Select(ub => new UserDto
                     {
