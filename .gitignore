@@ -364,3 +364,5 @@ FodyWeavers.xsd
 /ChasRooms.Server/appsettings.Development.json
 Piglin-Brutes-Hackathon.AppHost/appsettings.Development.json
 Piglin-Brutes-Hackathon.AppHost/appsettings.Development.json
+**/obj/
+**/bin/
