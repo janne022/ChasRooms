@@ -1,4 +1,5 @@
 ﻿using ChasRooms.Server.Domain.DTOs.Auth;
+using ChasRooms.Server.Features.Auth;
 using ChasRooms.Server.Features.Rooms;
 using FastEndpoints;
 using Google.Apis.Auth;

@@ -41,7 +41,7 @@ namespace ChasRooms.Server.Features.Auth
                 o.SigningKey = config["Jwt:Key"];
                 o.ExpireAt = DateTime.UtcNow.AddDays(7);
                 o.User.Claims.Add(("UserId", user.Id));
-                o.User.Claims.Add(("Email", user.Id));
+                o.User.Claims.Add(("Email", user.Email!));
             });
             return new LoginResponse
             {

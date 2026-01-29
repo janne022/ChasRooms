@@ -1,4 +1,5 @@
 using ChasRooms.Server.Domain.Entities;
+using ChasRooms.Server.Infrastructure;
 using ChasRooms.Server.Infrastructure.Persistance;
 using FastEndpoints;
 using FastEndpoints.Swagger;
@@ -64,6 +65,7 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthenticationJwtBearer(s => s.SigningKey = builder.Configuration["Jwt:Key"]!);
 
+// Prevent redirection to a login page (which doesn't exist) when unauthorized, return 401 instead
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.Events.OnRedirectToLogin = context =>
@@ -112,6 +114,13 @@ app.UseFastEndpoints(c => c.Endpoints.RoutePrefix = "api");
 
 // Swagger
 app.UseSwaggerGen();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<RoomDbContext>();
+    await SeedData.InitializeAsync(context);
+}
 
 app.Run();
 
