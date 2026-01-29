@@ -1,5 +1,6 @@
 import { UsersIcon } from "lucide-react";
 import RoomEqupmentList from "./RoomEqupmentList";
+import Button from "./ui/Button";
 
 type RoomDetailsCardProps = {
     preview: string;
@@ -35,6 +36,9 @@ export default function RoomDetailsCard({
                     <RoomEqupmentList equipment={equipment} />
                 </div>
             </div>
+
+            <Button> Boka Rum </Button>
+            <Button> Visa på kartan </Button>
         </article>
     );
 }
