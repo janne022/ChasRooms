@@ -23,8 +23,10 @@ var server = builder.AddProject<Projects.ChasRooms_Server>("server")
     .WithExternalHttpEndpoints();
 
 var webfrontend = builder.AddViteApp("webfrontend", "../frontend")
+    .WithEndpoint("http", (endpointAnnotation) => endpointAnnotation.Port = 5173)
     .WithReference(server)
-    .WaitFor(server);
+    .WaitFor(server)
+    .WithExternalHttpEndpoints();
 
 server.PublishWithContainerFiles(webfrontend, "wwwroot");
 

@@ -1,4 +1,8 @@
+using ChasRooms.Server.Domain.Entities;
 using ChasRooms.Server.Infrastructure.Persistance;
+using FastEndpoints;
+using FastEndpoints.Swagger;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using Wolverine;
@@ -32,6 +36,24 @@ builder.Host.UseWolverine(opt =>
     opt.Policies.UseDurableOutboxOnAllSendingEndpoints();
 });
 
+// Fastendpoints and Swagger
+builder.Services.AddFastEndpoints();
+builder.Services.SwaggerDocument(o =>
+{
+    o.DocumentSettings = s =>
+    {
+        s.Title = "ChasRooms API";
+        s.Version = "v1";
+        s.Description = "APIs for ChasRooms";
+
+    };
+});
+
+// Auth
+builder.Services.AddIdentity<User, IdentityRole>()
+    .AddEntityFrameworkStores<RoomDbContext>()
+    .AddDefaultTokenProviders();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -47,6 +69,12 @@ app.UseOutputCache();
 app.MapDefaultEndpoints();
 
 app.UseFileServer();
+
+// Set prefix to /api for all routes
+app.UseFastEndpoints(c => c.Endpoints.RoutePrefix = "api");
+
+// Swagger
+app.UseSwaggerGen();
 
 app.Run();
 

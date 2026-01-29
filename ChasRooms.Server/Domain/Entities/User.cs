@@ -7,6 +7,6 @@ namespace ChasRooms.Server.Domain.Entities
         public string FirstName { get; set; } = null!;
         public string LastName { get; set; } = null!;
 
-        ICollection<UserBooking> UserBookings { get; set; } = new List<UserBooking>();
+        public ICollection<UserBooking> UserBookings { get; set; } = new List<UserBooking>();
     }
 }
