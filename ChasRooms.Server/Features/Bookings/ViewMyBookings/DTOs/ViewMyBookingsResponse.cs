@@ -1,7 +1,6 @@
 ﻿using ChasRooms.Server.Domain.DTOs.Bookings;
-using ChasRooms.Server.Domain.Entities;
 
-namespace ChasRooms.Server.Domain.Entities.Features.Bookings.ViewMyBookings.DTOs
+namespace ChasRooms.Server.Features.Bookings.ViewMyBookings.DTOs
 {
     public class ViewMyBookingsResponse
     {

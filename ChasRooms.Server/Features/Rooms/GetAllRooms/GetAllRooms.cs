@@ -2,10 +2,10 @@
 using Wolverine;
 using FastEndpoints;
 using ChasRooms.Server.Domain.DTOs;
-using ChasRooms.Server.Domain.Entities.Features.Rooms.GetAllRooms.DTOs;
 using ChasRooms.Server.Infrastructure.Persistance;
+using ChasRooms.Server.Features.Rooms.GetAllRooms.DTOs;
 
-namespace ChasRooms.Server.Domain.Entities.Features.Rooms.GetAllRooms
+namespace ChasRooms.Server.Features.Rooms.GetAllRooms
 {
     public record GetAllRoomsCommand(bool AvailableOnly);
 
@@ -21,7 +21,7 @@ namespace ChasRooms.Server.Domain.Entities.Features.Rooms.GetAllRooms
         public override void Configure()
         {
             Get("/rooms");
-            AllowAnonymous();
+            Claims("UserId");
         }
 
         public override async Task HandleAsync(GetAllRoomsRequest req, CancellationToken ct)

@@ -1,7 +1,10 @@
 using ChasRooms.Server.Domain.Entities;
+using ChasRooms.Server.Infrastructure;
 using ChasRooms.Server.Infrastructure.Persistance;
 using FastEndpoints;
 using FastEndpoints.Swagger;
+using FastEndpoints.Security;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -54,6 +57,26 @@ builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<RoomDbContext>()
     .AddDefaultTokenProviders();
 
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+});
+
+builder.Services.AddAuthenticationJwtBearer(s => s.SigningKey = builder.Configuration["Jwt:Key"]!);
+
+// Prevent redirection to a login page (which doesn't exist) when unauthorized, return 401 instead
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Events.OnRedirectToLogin = context =>
+    {
+        context.Response.StatusCode = 401;
+        return Task.CompletedTask;
+    };
+});
+
+builder.Services.AddAuthorization();
+
 // Cors fix to allow localhost
 builder.Services.AddCors(options =>
 {
@@ -77,6 +100,9 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.UseOutputCache();
 
 app.MapDefaultEndpoints();
@@ -88,6 +114,13 @@ app.UseFastEndpoints(c => c.Endpoints.RoutePrefix = "api");
 
 // Swagger
 app.UseSwaggerGen();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<RoomDbContext>();
+    await SeedData.InitializeAsync(context);
+}
 
 app.Run();
 

@@ -6,7 +6,7 @@ using Google.Apis.Auth;
 using Microsoft.AspNetCore.Identity;
 using Wolverine.Attributes;
 
-namespace ChasRooms.Server.Domain.Entities.Features.Auth
+namespace ChasRooms.Server.Features.Auth
 {
     public record LoginCommand(GoogleJsonWebSignature.Payload Payload);
     public static class LoginHandler
@@ -41,7 +41,7 @@ namespace ChasRooms.Server.Domain.Entities.Features.Auth
                 o.SigningKey = config["Jwt:Key"];
                 o.ExpireAt = DateTime.UtcNow.AddDays(7);
                 o.User.Claims.Add(("UserId", user.Id));
-                o.User.Claims.Add(("Email", user.Id));
+                o.User.Claims.Add(("Email", user.Email!));
             });
             return new LoginResponse
             {

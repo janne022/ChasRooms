@@ -5,7 +5,7 @@ using FastEndpoints;
 using Google.Apis.Auth;
 using Wolverine;
 
-namespace ChasRooms.Server.Domain.Entities.Features.Auth
+namespace ChasRooms.Server.Features.Auth
 {
     public class DevLogin : EndpointWithoutRequest<LoginResponse>
     {
