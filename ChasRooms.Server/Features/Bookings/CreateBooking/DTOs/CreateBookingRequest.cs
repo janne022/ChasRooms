@@ -1,6 +1,6 @@
 ﻿namespace ChasRooms.Server.Features.Bookings.CreateBooking.DTOs
 {
-    public class CreateBookingRequest
+    public record CreateBookingRequest
     {
         public int RoomId { get; set; }
         public string Name { get; set; } = null!;
