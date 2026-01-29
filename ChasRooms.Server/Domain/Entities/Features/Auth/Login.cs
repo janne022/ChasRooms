@@ -9,7 +9,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Wolverine;
 using Wolverine.Attributes;
 
-namespace ChasRooms.Server.Features.Rooms
+namespace ChasRooms.Server.Domain.Entities.Features.Auth
 {
     public class Login : Endpoint<GoogleLoginRequest, LoginResponse>
     {

@@ -1,4 +1,4 @@
-﻿namespace ChasRooms.Server.Features.Bookings.CreateBooking.DTOs
+﻿namespace ChasRooms.Server.Domain.Entities.Features.Bookings.CreateBooking.DTOs
 {
     public record CreateBookingResponse
     {

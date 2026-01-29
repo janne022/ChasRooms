@@ -1,6 +1,6 @@
 ﻿using ChasRooms.Server.Domain.DTOs.Bookings;
 using ChasRooms.Server.Domain.Entities;
-using ChasRooms.Server.Features.Bookings.ViewMyBookings.DTOs;
+using ChasRooms.Server.Domain.Entities.Features.Bookings.ViewMyBookings.DTOs;
 using ChasRooms.Server.Infrastructure.Persistance;
 using FastEndpoints;
 using Humanizer;
@@ -11,7 +11,7 @@ using Wolverine;
 using YamlDotNet.Core.Events;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace ChasRooms.Server.Features.Bookings.ViewMyBookings
+namespace ChasRooms.Server.Domain.Entities.Features.Bookings.ViewMyBookings
 {
     public record ViewMyBookingsCommand(string UserId);
 

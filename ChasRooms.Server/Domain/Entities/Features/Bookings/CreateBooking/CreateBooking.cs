@@ -1,5 +1,5 @@
 ﻿using ChasRooms.Server.Domain.Entities;
-using ChasRooms.Server.Features.Bookings.CreateBooking.DTOs;
+using ChasRooms.Server.Domain.Entities.Features.Bookings.CreateBooking.DTOs;
 using ChasRooms.Server.Infrastructure.Persistance;
 using FastEndpoints;
 using FastEndpoints.Security;
@@ -11,7 +11,7 @@ using Wolverine;
 using Wolverine.Attributes;
 using static Google.Apis.Requests.BatchRequest;
 
-namespace ChasRooms.Server.Features.Bookings.CreateBooking
+namespace ChasRooms.Server.Domain.Entities.Features.Bookings.CreateBooking
 {
     public record CreateBookingCommand(
       int RoomId,

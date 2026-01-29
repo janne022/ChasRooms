@@ -6,7 +6,7 @@ using Google.Apis.Auth;
 using Microsoft.AspNetCore.Identity;
 using Wolverine.Attributes;
 
-namespace ChasRooms.Server.Features.Auth
+namespace ChasRooms.Server.Domain.Entities.Features.Auth
 {
     public record LoginCommand(GoogleJsonWebSignature.Payload Payload);
     public static class LoginHandler

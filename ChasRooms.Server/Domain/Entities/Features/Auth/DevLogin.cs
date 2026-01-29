@@ -1,10 +1,11 @@
 ﻿using ChasRooms.Server.Domain.DTOs.Auth;
+using ChasRooms.Server.Features.Auth;
 using ChasRooms.Server.Features.Rooms;
 using FastEndpoints;
 using Google.Apis.Auth;
 using Wolverine;
 
-namespace ChasRooms.Server.Features.Auth
+namespace ChasRooms.Server.Domain.Entities.Features.Auth
 {
     public class DevLogin : EndpointWithoutRequest<LoginResponse>
     {
