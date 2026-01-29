@@ -42,10 +42,16 @@ namespace ChasRooms.Server.Features.Auth
                 Issuer = "accounts.google.com",
             };
 
-            var response = await _messageBus.InvokeAsync<LoginResponse>(
+            try
+            {
+                var response = await _messageBus.InvokeAsync<LoginResponse>(
                 new LoginCommand(fakePayload), ct);
-
-            await Send.OkAsync(response, ct);
+                await Send.OkAsync(response, ct);
+            }
+            catch (ApplicationException ex)
+            {
+                ThrowError(ex.Message);
+            }
         }
     }
 }
