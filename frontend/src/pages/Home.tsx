@@ -1,6 +1,6 @@
-import RoomCard from "@/components/ui/room/RoomCard";
+import RoomCard from "@/components/room/RoomCard";
 import type { Room } from "@/types/room";
-import roomsData from "@lib/rooms_mock_data.json";
+import roomsData from "@/data/rooms_mock_data.json";
 
 
 export default function Home() {
