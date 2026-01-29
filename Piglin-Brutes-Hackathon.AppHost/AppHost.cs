@@ -2,6 +2,9 @@ using YamlDotNet.Core.Tokens;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
+var googleClientId = builder.Configuration["Google:ClientId"];
+var jwtKey = builder.Configuration["Jwt:Key"];
+
 var cache = builder.AddRedis("cache");
 
 var postgresPassword = builder.AddParameter("postgres-password", "postgres");
@@ -22,7 +25,9 @@ var server = builder.AddProject<Projects.ChasRooms_Server>("server")
     .WaitFor(postgres)
     .WaitFor(cache)
     .WithHttpHealthCheck("/health")
-    .WithExternalHttpEndpoints();
+    .WithExternalHttpEndpoints()
+    .WithEnvironment("Google:ClientId", googleClientId)
+    .WithEnvironment("Jwt:Key", jwtKey);
 
 var webfrontend = builder.AddViteApp("webfrontend", "../frontend")
     .WithReference(server)
@@ -31,7 +36,8 @@ var webfrontend = builder.AddViteApp("webfrontend", "../frontend")
     {
         endpoint.Port = 5173;
     })
-    .WithEnvironment("VITE_API_URL", server.GetEndpoint("http"));
+    .WithEnvironment("VITE_API_URL", server.GetEndpoint("http"))
+    .WithEnvironment("VITE_GOOGLE_CLIENT_ID", googleClientId);
 
 server.PublishWithContainerFiles(webfrontend, "wwwroot");
 
