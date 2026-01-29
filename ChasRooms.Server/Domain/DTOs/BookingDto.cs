@@ -1,4 +1,6 @@
-﻿namespace ChasRooms.Server.Domain.DTOs.Bookings
+﻿using ChasRooms.Server.Domain.Entities;
+
+namespace ChasRooms.Server.Domain.DTOs
 {
     public class BookingDto
     {
@@ -7,7 +9,7 @@
         public string Description { get; set; } = null!;
         public DateTime BookingStartTime { get; set; }
         public DateTime BookingEndTime { get; set; }
-        public int RoomId { get; set; }
-        public string RoomName { get; set; } = string.Empty;
+        public RoomDto Room { get; set; } = null!;
+        public List<UserDto> Users { get; set; } = null!;
     }
 }

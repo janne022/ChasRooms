@@ -1,4 +1,4 @@
-﻿using ChasRooms.Server.Domain.DTOs.Bookings;
+﻿using ChasRooms.Server.Domain.DTOs;
 using ChasRooms.Server.Domain.Entities;
 using ChasRooms.Server.Features.Bookings.ViewMyBookings.DTOs;
 using ChasRooms.Server.Infrastructure.Persistance;
@@ -63,12 +63,20 @@ namespace ChasRooms.Server.Features.Bookings.ViewMyBookings
                     Description = b.Description,
                     BookingStartTime = b.BookingStartTime,
                     BookingEndTime = b.BookingEndTime,
-
-                    RoomId = b.RoomId,
-
-                    RoomName = b.Room.RoomName
-                })
-                .ToListAsync(ct);
+                    Room = new RoomDto
+                    {
+                        Id = b.Room.Id,
+                        Capacity = b.Room.Capacity,
+                        Features = b.Room.Features,
+                        RoomName = b.Room.RoomName
+                    },
+                    Users = b.UserBookings.Select(ub => new UserDto
+                    {
+                        UserId = ub.User.Id,
+                        FirstName = ub.User.FirstName,
+                        LastName = ub.User.LastName,
+                    }).ToList(),
+                }).ToListAsync(ct);
         }
     }
 }
