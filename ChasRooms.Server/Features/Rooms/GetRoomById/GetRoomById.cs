@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ChasRooms.Server.Domain.Entities.Features.Rooms.GetRoomById.DTOs;
 using ChasRooms.Server.Infrastructure.Persistance;
 using FastEndpoints;
 using Wolverine;
+using ChasRooms.Server.Features.Rooms.GetRoomById.DTOs;
 
-namespace ChasRooms.Server.Domain.Entities.Features.Rooms.GetRoomById
+namespace ChasRooms.Server.Features.Rooms.GetRoomById
 {
     public record GetRoomByIdCommand(int Id);
 

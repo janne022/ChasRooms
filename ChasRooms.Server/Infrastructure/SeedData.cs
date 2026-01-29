@@ -1,5 +1,5 @@
 ﻿using Bogus;
-using ChasRooms.Server.Domain.Entities;
+using ChasRooms.Server.Domain.DTOs.Entities;
 using ChasRooms.Server.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 

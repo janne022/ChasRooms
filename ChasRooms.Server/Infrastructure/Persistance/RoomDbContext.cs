@@ -1,4 +1,4 @@
-﻿using ChasRooms.Server.Domain.Entities;
+﻿using ChasRooms.Server.Domain.DTOs.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

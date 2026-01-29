@@ -1,4 +1,4 @@
-﻿namespace ChasRooms.Server.Domain.Entities.Features.Rooms.GetRoomById.DTOs
+﻿namespace ChasRooms.Server.Features.Rooms.GetRoomById.DTOs
 {
     public class BookingSlotDto
     {
