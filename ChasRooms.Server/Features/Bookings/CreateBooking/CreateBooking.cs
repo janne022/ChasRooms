@@ -34,7 +34,7 @@ namespace ChasRooms.Server.Features.Bookings.CreateBooking
                 .WithMessage("Your booking needs to have a name.");
 
             RuleFor(x => x.StartTime)
-                .GreaterThan(DateTime.Now)
+                .GreaterThan(DateTime.UtcNow)
                 .WithMessage("You cannot book the room in the past (no time traveling at Chas)!");
 
             RuleFor(x => x.EndTime)
