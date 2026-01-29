@@ -20,7 +20,7 @@ namespace ChasRooms.Server.Features.Rooms.GetRoomById
         public override void Configure()
         {
             Get("/rooms/{Id}");
-            AllowAnonymous();
+            Claims("UserId");
         }
 
         public override async Task HandleAsync(GetRoomByIdRequest req, CancellationToken ct)
