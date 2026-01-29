@@ -1,4 +1,3 @@
-using ChasRooms.Server.Domain.Entities;
 using ChasRooms.Server.Infrastructure;
 using ChasRooms.Server.Infrastructure.Persistance;
 using FastEndpoints;
@@ -11,6 +10,7 @@ using System;
 using Wolverine;
 using Wolverine.EntityFrameworkCore;
 using Wolverine.Postgresql;
+using ChasRooms.Server.Domain.DTOs.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
