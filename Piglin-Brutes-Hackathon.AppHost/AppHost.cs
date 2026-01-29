@@ -1,4 +1,10 @@
+using Google.Protobuf.WellKnownTypes;
+using YamlDotNet.Core.Tokens;
+
 var builder = DistributedApplication.CreateBuilder(args);
+
+var googleClientId = builder.Configuration["Google:ClientId"];
+var jwtKey = builder.Configuration["Jwt:Key"];
 
 var cache = builder.AddRedis("cache");
 
@@ -20,13 +26,22 @@ var server = builder.AddProject<Projects.ChasRooms_Server>("server")
     .WaitFor(postgres)
     .WaitFor(cache)
     .WithHttpHealthCheck("/health")
-    .WithExternalHttpEndpoints();
+    .WithExternalHttpEndpoints()
+    .WithEnvironment("Google:ClientId", googleClientId)
+    .WithEnvironment("Jwt:Key", jwtKey);
+
+// Set text for urls
+server.WithUrl($"{server.GetEndpoint("https")}/swagger/index.html", "Swagger");
 
 var webfrontend = builder.AddViteApp("webfrontend", "../frontend")
-    .WithEndpoint("http", (endpointAnnotation) => endpointAnnotation.Port = 5173)
     .WithReference(server)
     .WaitFor(server)
-    .WithExternalHttpEndpoints();
+    .WithEndpoint("http", endpoint =>
+    {
+        endpoint.Port = 5173;
+    })
+    .WithEnvironment("VITE_API_URL", server.GetEndpoint("http"))
+    .WithEnvironment("VITE_GOOGLE_CLIENT_ID", googleClientId);
 
 server.PublishWithContainerFiles(webfrontend, "wwwroot");
 
