@@ -95,6 +95,12 @@ namespace ChasRooms.Server.Features.Bookings.CreateBooking
         [Transactional]
         public static async Task<CreateBookingResponse> Handle(CreateBookingCommand cmd, RoomDbContext db, CancellationToken ct)
         {
+            var roomExists = await db.Rooms.AnyAsync(r => r.Id == cmd.RoomId, ct);
+
+            if (!roomExists)
+            {
+                throw new ApplicationException("The specified room does not exist.");
+            }
 
             var isOccupied = await db.Bookings.AnyAsync(b =>
             b.RoomId == cmd.RoomId &&
