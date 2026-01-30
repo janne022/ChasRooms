@@ -8,6 +8,9 @@ import { getRoomById } from "@/services/api";
 import { useAtomValue } from "jotai";
 import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
+import BookingModal from "./BookingModal";
+import { Toast } from "../ui/Toast";
+import { useState } from "react";
 
 export default function RoomDetailsCard() {
     const { id } = useParams();
@@ -25,6 +28,22 @@ export default function RoomDetailsCard() {
         enabled: !!token,
     });
 
+    const [isOpen, setIsOpen] = useState(false)
+    const [toast, setToast] = useState<{
+        open: boolean;
+        message: string;
+        type?: "success" | "error";
+    }>({
+        open: false,
+        message: ''
+    })
+
+
+    const showToast = (message: string, type: "success" | "error" = "success", duration = 3000) => {
+        setToast({ open: true, message, type });
+        setTimeout(() => setToast(prev => ({ ...prev, open: false })), duration);
+    };
+
     if (isPending) {
         return <div> Laddar ... </div>;
     }
@@ -36,16 +55,16 @@ export default function RoomDetailsCard() {
     const status = room?.isOccupied ? "available" : "occupied";
 
     return (
-        <article className="grid">
+        <article className="grid card">
             <img
-                className="aspect-4/1 w-full object-cover"
+                className="cardImg"
                 src={room?.previewUrl || roomPreviewPlaceholder}
                 alt=""
             />
 
-            <div className="grid gap-y-4">
-                <h2> {room?.previewUrl} </h2>
-                <StatusBadge status={status} className="justify-self" />
+            <div className="grid gap-y-4 relative p-4">
+                <h2> {room?.name} </h2>
+                <StatusBadge status={status}/>
 
                 <span className="flex items-center gap-x-2">
                     <UsersIcon />
@@ -60,10 +79,23 @@ export default function RoomDetailsCard() {
                 </div>
             </div>
 
-            <div className="grid">
-                <Button> Boka Rum </Button>
-                <Button variant="secondary">Visa på kartan</Button>
+            <div className="grid p-2 gap-2">
+                <Button  onClick={() => setIsOpen(true)} className="default-bg p-2"> Boka Rum </Button>
+                <Button className="border rounded-2xl p-2">Visa på kartan</Button>
             </div>
+            <BookingModal 
+                isOpen={isOpen} 
+                onCancel={() => setIsOpen(false)} 
+                roomId={1}
+                roomName="Sun"
+                showToast={showToast}
+            />
+            <Toast
+                open={toast.open}
+                message={toast.message}
+                type={toast.type}
+                onClose={() => setToast(prev => ({ ...prev, open: false }))}
+            />
         </article>
     );
 }

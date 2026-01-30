@@ -1,4 +1,3 @@
-import { capitalizeString } from "@/lib/utils";
 import type { RoomStatus } from "@/types/room";
 import type React from "react";
 import clsx from "clsx";
@@ -17,7 +16,7 @@ const StatusBadge: React.FC<StatusBadgeProps> = ({ status, className }) => {
     return (
         <div
             className={clsx(
-                `rounded-2xl p-1.5 ${availabilityColor[status]}`,
+                ` absolute top-3 right-2 rounded-2xl p-1.5 ${availabilityColor[status]}`,
                 className,
             )}
         >
@@ -25,7 +24,7 @@ const StatusBadge: React.FC<StatusBadgeProps> = ({ status, className }) => {
                 className="inline-flex items-center text-sm font-medium text-white"
                 aria-live="polite"
             >
-                • {capitalizeString(status)}
+                • {status === "available" ? "Ledig" : "Upptagen"}
             </p>
         </div>
     );
