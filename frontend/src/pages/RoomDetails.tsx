@@ -4,7 +4,6 @@ import { useAtomValue } from "jotai";
 import { useNavigate, useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import RoomDetailsCard from "@/components/room/RoomDetailsCard";
-import BuildingMapModal from "@/components/BuildingMapModal";
 import Button from "@/components/ui/Button";
 import RoomBookings from "@/components/room/RoomBookings";
 
