@@ -4,6 +4,7 @@ import { useAtomValue } from "jotai";
 import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import RoomDetailsCard from "@/components/room/RoomDetailsCard";
+import BuildingMapModal from "@/components/BuildingMapModal";
 
 export default function RoomDetails() {
     const { id } = useParams();
@@ -29,5 +30,9 @@ export default function RoomDetails() {
         return <div> Fel vid hämtning av rum {id} </div>;
     }
 
-    return <>{room && <RoomDetailsCard />}</>;
+    return (
+        <>
+            {room && <RoomDetailsCard />} <BuildingMapModal />
+        </>
+    );
 }
