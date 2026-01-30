@@ -2,11 +2,14 @@ import { GoogleLogin } from "@react-oauth/google";
 import { useNavigate, useLocation } from "react-router-dom";
 import { api } from "@services/axios";
 import type { LoginResponse, GoogleLoginRequest } from "@/types/schema";
+import { useSetAtom } from "jotai";
+import { tokenAtom } from "@/lib/atoms";
 
 export default function Login() {
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
+    const setToken = useSetAtom(tokenAtom);
 
     const handleGoogleSuccess = async (credentialResponse: any) => {
         try {
@@ -20,7 +23,7 @@ export default function Login() {
             );
 
             if (res.data.token) {
-                localStorage.setItem("token", res.data.token);
+                setToken(res.data.token);
             }
 
             // Probs replace these with toaster notification or something
@@ -36,7 +39,7 @@ export default function Login() {
     const handleDevLogin = async () => {
         try {
             const res = await api.post("api/auth/dev");
-            localStorage.setItem("token", res.data.token);
+            setToken(res.data.token);
             navigate("/");
         } catch (error) {
             console.error("Dev login failed", error);

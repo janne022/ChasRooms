@@ -1,30 +1,48 @@
-import React from 'react'
-import StatusBadge from './StatusBadge';
-import type { Room } from '@/types/room';
+import React from "react";
+import StatusBadge from "./StatusBadge";
+import type { Room } from "@/types/room";
+import { UsersIcon } from "lucide-react";
+import { Link } from "react-router";
+import roomPreviewPlaceholder from "@assets/images/room-preview-placeholder.png";
 
-type RoomCardProps = Pick<
-  Room,
-  "roomName" | "roomNumber" | "capacity" | "availability" | "equipment" | "image"
->;
+type RoomCardProps = Room;
 
-const RoomCard: React.FC<RoomCardProps> = ({roomName, roomNumber, capacity, availability, equipment, image}) => {
-  return (
-    <div className='max-w-120 rounded-2xl border border-gray-400'>
-      <div className="h-30 sm:h-40 max-w-120 overflow-hidden rounded-t-2xl">
-        <img
-          src={image || "/room.jpg"}
-          alt={`room-${roomNumber}`}
-          className="w-full h-full object-cover"
-        />
-      </div>
-      <div className='relative p-3'>
-        <h3>{roomName}</h3>
-        <StatusBadge availability={availability} />
-        <p>👤 {capacity} pers</p>
-        <p className='text-gray-600'>{equipment.join(", ")}</p>
-      </div>
-    </div>
-  )
-}
+const RoomCard: React.FC<RoomCardProps> = ({
+    id,
+    previewUrl,
+    roomName,
+    capacity,
+    features,
+    isOccupied,
+}: RoomCardProps) => {
+    const status = !isOccupied ? "available" : "occupied";
+
+    return (
+        <Link to={`/rooms/${id}`}>
+            <div className="overflow-hidden rounded-2xl border border-gray-200">
+                <div className="aspect-3/1">
+                    <img
+                        src={previewUrl || roomPreviewPlaceholder}
+                        alt={`preview of room ${id}`}
+                        className="h-full w-full object-cover"
+                    />
+                </div>
+                <div className="grid gap-y-2 p-3">
+                    <div className="flex items-center justify-between">
+                        <div>
+                            <h3>{roomName}</h3>
+                            <p className="flex items-center">
+                                <UsersIcon /> {capacity} pers
+                            </p>
+                        </div>
+                        <StatusBadge status={status} />
+                    </div>
+
+                    <p className="text-gray-600">{features}</p>
+                </div>
+            </div>
+        </Link>
+    );
+};
 
 export default RoomCard;
