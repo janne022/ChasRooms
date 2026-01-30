@@ -10,7 +10,7 @@ using System;
 using Wolverine;
 using Wolverine.EntityFrameworkCore;
 using Wolverine.Postgresql;
-using ChasRooms.Server.Domain.DTOs.Entities;
+using ChasRooms.Server.Domain.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
