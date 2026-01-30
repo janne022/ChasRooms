@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import RoomDetailsCard from "@/components/room/RoomDetailsCard";
 import Button from "@/components/ui/Button";
+import RoomBookings from "@/components/room/RoomBookings";
 
 export default function RoomDetails() {
     const { id } = useParams();
@@ -41,6 +42,7 @@ export default function RoomDetails() {
             <Button onClick={handleBack} className="m-1"> {"<- Gå tillbaka"}</Button>
             <div className="p-5">
                 <RoomDetailsCard />
+                <RoomBookings bookings={room?.bookings}/>
             </div>
         </div>
     }</>;
