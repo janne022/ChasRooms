@@ -24,7 +24,14 @@ namespace ChasRooms.Server.Features.Bookings.GetBooking
 
         public override async Task HandleAsync(CancellationToken ct)
         {
-            Guid id = Route<Guid>("id");
+            try
+            {
+                Guid id = Route<Guid>("id");
+            }
+            catch (Exception)
+            {
+                ThrowError("Invalid booking id, are you using the Guid?!");
+            }
             try
             {
                 var result = await _bus.InvokeAsync<BookingDto>(
