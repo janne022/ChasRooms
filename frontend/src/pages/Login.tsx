@@ -1,6 +1,6 @@
 import { GoogleLogin } from '@react-oauth/google';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { api } from '../api/axios';
+import { api } from '../services/axios';
 import type { LoginResponse, GoogleLoginRequest } from '../types/schema';
 export default function Login() {
     const navigate = useNavigate();

@@ -2,7 +2,7 @@ import { Description, Dialog, DialogPanel, DialogTitle, Field, Fieldset, Input, 
 import Button from '../ui/Button'
 import { useState } from 'react';
 import type { Booking, BookingForm } from '@/types/booking';
-import { createBooking } from '@/api/axios';
+import { createBooking } from '@/services/api';
 
 //add popup for error/ success
 
