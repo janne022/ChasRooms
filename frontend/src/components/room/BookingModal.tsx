@@ -71,6 +71,11 @@ const BookingModal:React.FC<BookingModalProps> = ({isOpen, onCancel, roomId, roo
                   <Input className="mt-1 block default-bg" type='time' value={booking.to} onChange={(e) => setBooking({...booking, to:e.target.value})} />
                 </Field>
               </div>
+              <Field className="m-1">
+                <Label className="block">Description</Label>
+                <Input className="mt-1 block w-full  default-bg" type='text' value={booking.description} onChange={(e) => setBooking({...booking, description:e.target.value})} />
+              </Field>
+
             </Fieldset>
             <Button 
               className='w-full default-bg' 
