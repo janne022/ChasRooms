@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import RoomDetailsCard from "@/components/room/RoomDetailsCard";
 import Button from "@/components/ui/Button";
+import { List } from "lucide-react";
 
 export default function RoomDetails() {
     const { id } = useParams();
@@ -41,6 +42,13 @@ export default function RoomDetails() {
             <Button onClick={handleBack} className="m-1"> {"<- Gå tillbaka"}</Button>
             <div className="p-5">
                 <RoomDetailsCard />
+                <div className="card">
+                    <List>
+                        {room.bookings.map((booking) => (
+                            <p>{`${booking.start.getDate()}: ${booking.start.getTime()}-${booking.start.getTime()}`}</p>
+                        ))}
+                    </List>
+                </div>
             </div>
         </div>
     }</>;

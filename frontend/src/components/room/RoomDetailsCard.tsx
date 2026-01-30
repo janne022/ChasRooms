@@ -52,7 +52,7 @@ export default function RoomDetailsCard() {
         return <div> Fel vid hämtning av rum {id} </div>;
     }
 
-    const status = room?.isOccupied ? "available" : "occupied";
+    const status = room?.isOccupied ? "occupied" : "available";
 
     return (
         <article className="grid card">
