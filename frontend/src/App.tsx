@@ -2,12 +2,12 @@ import { Outlet } from "react-router";
 
 export default function App() {
     return (
-        <main>
+        <div className="h-screen">
             <header> Header </header>
-            <div className="mx-auto max-w-2xl">
+            <main className="mx-auto max-w-7xl">
                 <Outlet />
-            </div>
+            </main>
             <footer> Footer </footer>
-        </main>
+        </div>
     );
 }

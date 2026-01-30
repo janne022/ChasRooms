@@ -31,7 +31,8 @@
             "@components/*": ["src/components/*"],
             "@pages/*": ["src/pages/*"],
             "@lib/*": ["src/lib/*"],
-            "@services/*": ["src/services/*"]
+            "@services/*": ["src/services/*"],
+            "@types/*": ["src/types/*"]
         }
     },
     "include": ["src"]
