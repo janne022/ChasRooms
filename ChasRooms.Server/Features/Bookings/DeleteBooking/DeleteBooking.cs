@@ -2,7 +2,6 @@ using ChasRooms.Server.Features.Bookings.DeleteBooking.DTOs;
 using ChasRooms.Server.Infrastructure.Persistance;
 using FastEndpoints;
 using FluentValidation;
-using System;
 using System.Security.Claims;
 using Wolverine;
 using Wolverine.Attributes;
@@ -74,6 +73,11 @@ namespace ChasRooms.Server.Features.Bookings.DeleteBooking
             if (booking.OwnerId != cmd.UserId)
             {
                 throw new ApplicationException("You are not authorized to delete this booking.");
+            }
+
+            if (booking.BookingEndTime < DateTime.UtcNow)
+            {
+                throw new ApplicationException("Cannot delete a booking that has already ended.");
             }
 
             db.Bookings.Remove(booking);
