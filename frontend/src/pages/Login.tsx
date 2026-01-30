@@ -1,3 +1,4 @@
+
 import { GoogleLogin } from "@react-oauth/google";
 import { useNavigate, useLocation } from "react-router-dom";
 import { api } from "@services/axios";
@@ -11,6 +12,7 @@ export default function Login() {
     const from = location.state?.from?.pathname || "/";
     const setToken = useSetAtom(tokenAtom);
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleGoogleSuccess = async (credentialResponse: any) => {
         try {
             const payload: GoogleLoginRequest = {

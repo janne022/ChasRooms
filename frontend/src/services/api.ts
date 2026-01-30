@@ -1,4 +1,6 @@
 import axios from "axios";
+import type { Booking } from '@/types/booking';
+import { api } from "./axios";
 import { type Room, type RoomById } from "@/types/room";
 
 export const getAllMockRooms = async () => {
@@ -12,6 +14,34 @@ export const getAllMockRooms = async () => {
         throw error;
     }
 };
+
+
+export const createBooking = async ( booking: Booking, token: string): Promise<{ data?: Booking; error?: string }> => {
+
+    try {
+        const response = await api.post<Booking>(
+            "api/bookings/createBooking",
+            booking,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        );
+
+        return { data: response.data };
+    } catch (err) {
+        if (axios.isAxiosError(err)) {
+            return {
+                error:
+                err.response?.data?.message ??
+                "Failed to create booking",
+            };
+        }
+
+        return { error: "Unexpected error occurred" };
+    }
+}
 
 export const getAllRooms = async (token: string) => {
     try {

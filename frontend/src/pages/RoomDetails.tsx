@@ -1,10 +1,12 @@
 import { tokenAtom } from "@/lib/atoms";
 import { getRoomById } from "@/services/api";
 import { useAtomValue } from "jotai";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import RoomDetailsCard from "@/components/room/RoomDetailsCard";
 import BuildingMapModal from "@/components/BuildingMapModal";
+import Button from "@/components/ui/Button";
+import RoomBookings from "@/components/room/RoomBookings";
 
 export default function RoomDetails() {
     const { id } = useParams();
@@ -22,6 +24,12 @@ export default function RoomDetails() {
         enabled: !!token,
     });
 
+    const navigate = useNavigate()
+
+    const handleBack = () => {
+        navigate(-1)
+    }
+
     if (isPending) {
         return <div> Laddar ... </div>;
     }
@@ -30,9 +38,13 @@ export default function RoomDetails() {
         return <div> Fel vid hämtning av rum {id} </div>;
     }
 
-    return (
-        <>
-            {room && <RoomDetailsCard />} <BuildingMapModal />
-        </>
-    );
+    return <>{room && 
+        <div>
+            <Button onClick={handleBack} className="m-1"> {"<- Gå tillbaka"}</Button>
+            <div className="p-5">
+                <RoomDetailsCard />
+                <RoomBookings bookings={room?.bookings}/>
+            </div>
+        </div>
+    }</>;
 }

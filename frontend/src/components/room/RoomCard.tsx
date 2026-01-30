@@ -19,15 +19,15 @@ const RoomCard: React.FC<RoomCardProps> = ({
 
     return (
         <Link to={`/rooms/${id}`}>
-            <div className="overflow-hidden rounded-2xl border border-gray-200">
+            <div className="card">
                 <div className="aspect-3/1">
                     <img
                         src={previewUrl || roomPreviewPlaceholder}
                         alt={`preview of room ${id}`}
-                        className="h-full w-full object-cover"
+                        className="cardImg"
                     />
                 </div>
-                <div className="grid gap-y-2 p-3">
+                <div className="grid gap-y-2 p-3 relative">
                     <div className="flex items-center justify-between">
                         <div>
                             <h3>{roomName}</h3>

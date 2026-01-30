@@ -24,9 +24,9 @@ namespace ChasRooms.Server.Features.Bookings.GetBooking
 
         public override async Task HandleAsync(CancellationToken ct)
         {
-            Guid id = Route<Guid>("id");
             try
             {
+                Guid id = Route<Guid>("id");
                 var result = await _bus.InvokeAsync<BookingDto>(
                     new GetBookingCommand(id), ct);
                 await Send.OkAsync(result, ct);

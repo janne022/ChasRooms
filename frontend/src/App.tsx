@@ -1,4 +1,6 @@
 import { Outlet } from "react-router";
+import Header from "./components/layout/Header";
+import Footer from "./components/layout/Footer";
 
 export default function App() {
     return (
@@ -7,7 +9,7 @@ export default function App() {
             <main className="mx-auto min-h-screen w-[95%] max-w-7xl">
                 <Outlet />
             </main>
-            <footer> Footer </footer>
+            <Footer/>
         </div>
     );
 }

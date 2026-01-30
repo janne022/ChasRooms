@@ -3,11 +3,10 @@ import RoomList from "@/components/room/RoomList";
 
 export default function Home() {
     return (
-        <>
-            <h1 className="text-xl">Hitta ett studie rum</h1>
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+        <div className="p-3">
+            <h1 className="text-xl font-bold">Hitta ett studie rum</h1>
             <RoomFilter />
             <RoomList />
-        </>
+        </div>
     );
 }

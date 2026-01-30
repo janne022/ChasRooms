@@ -29,7 +29,7 @@ export default function RoomList() {
     }
 
     return (
-        <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 p-5">
             {displayedRooms?.map((room) => {
                 return (
                     <li key={room.id}>

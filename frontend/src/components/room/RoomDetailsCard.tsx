@@ -8,6 +8,9 @@ import { getRoomById } from "@/services/api";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
+import BookingModal from "./BookingModal";
+import { Toast } from "../ui/Toast";
+import { useState } from "react";
 
 export default function RoomDetailsCard() {
     const { id } = useParams();
@@ -27,6 +30,22 @@ export default function RoomDetailsCard() {
         enabled: !!token,
     });
 
+    const [isOpen, setIsOpen] = useState(false)
+    const [toast, setToast] = useState<{
+        open: boolean;
+        message: string;
+        type?: "success" | "error";
+    }>({
+        open: false,
+        message: ''
+    })
+
+
+    const showToast = (message: string, type: "success" | "error" = "success", duration = 3000) => {
+        setToast({ open: true, message, type });
+        setTimeout(() => setToast(prev => ({ ...prev, open: false })), duration);
+    };
+
     if (isPending) {
         return <div> Laddar ... </div>;
     }
@@ -38,9 +57,9 @@ export default function RoomDetailsCard() {
     const status = !room?.isOccupied ? "available" : "occupied";
 
     return (
-        <article className="grid">
+        <article className="grid card">
             <img
-                className="aspect-4/1 w-full object-cover"
+                className="cardImg"
                 src={room?.previewUrl || roomPreviewPlaceholder}
                 alt=""
             />
@@ -74,6 +93,19 @@ export default function RoomDetailsCard() {
                     Visa på kartan
                 </Button>
             </div>
+            <BookingModal 
+                isOpen={isOpen} 
+                onCancel={() => setIsOpen(false)} 
+                roomId={1}
+                roomName="Sun"
+                showToast={showToast}
+            />
+            <Toast
+                open={toast.open}
+                message={toast.message}
+                type={toast.type}
+                onClose={() => setToast(prev => ({ ...prev, open: false }))}
+            />
         </article>
     );
 }
