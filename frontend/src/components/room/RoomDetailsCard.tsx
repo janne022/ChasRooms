@@ -1,50 +1,69 @@
 import { UsersIcon } from "lucide-react";
-import RoomEqupmentList from "./RoomEqupmentList";
+import RoomResourceList from "@components/room/RoomResourceList";
 import Button from "@components/ui/Button";
-import type { RoomById } from "@/types/room";
 import roomPreviewPlaceholder from "@assets/images/room-preview-placeholder.png";
 import StatusBadge from "./StatusBadge";
+import { tokenAtom } from "@/lib/atoms";
+import { getRoomById } from "@/services/api";
+import { useAtomValue } from "jotai";
+import { useParams } from "react-router";
+import { useQuery } from "@tanstack/react-query";
 
-type RoomDetailsCardProps = Pick<
-    RoomById,
-    "id" | "previewUrl" | "name" | "capacity" | "resources" | "isOccupied"
->;
+export default function RoomDetailsCard() {
+    const { id } = useParams();
+    const token = useAtomValue(tokenAtom);
+    const {
+        data: room,
+        isPending,
+        isError,
+    } = useQuery({
+        queryFn: async () => {
+            if (!id) return;
+            return await getRoomById(token, id);
+        },
+        queryKey: ["rooms", id],
+        enabled: !!token,
+    });
 
-export default function RoomDetailsCard({
-    id,
-    previewUrl,
-    name,
-    capacity,
-    resources,
-    isOccupied,
-}: RoomDetailsCardProps) {
-    const status = !isOccupied ? "available" : "occupied";
+    if (isPending) {
+        return <div> Laddar ... </div>;
+    }
+
+    if (isError) {
+        return <div> Fel vid hämtning av rum {id} </div>;
+    }
+
+    const status = room?.isOccupied ? "available" : "occupied";
 
     return (
-        <article>
+        <article className="grid">
             <img
-                className="w-full"
-                src={previewUrl || roomPreviewPlaceholder}
+                className="aspect-4/1 w-full object-cover"
+                src={room?.previewUrl || roomPreviewPlaceholder}
                 alt=""
             />
 
             <div className="grid gap-y-4">
-                <h2> {name} </h2>
-                <StatusBadge status={status} />
+                <h2> {room?.previewUrl} </h2>
+                <StatusBadge status={status} className="justify-self" />
 
                 <span className="flex items-center gap-x-2">
                     <UsersIcon />
-                    {capacity} Pers
+                    {room?.capacity} Pers
                 </span>
 
                 <div>
                     <h3>Resurser: </h3>
-                    <RoomEqupmentList equipment={resources} />
+                    {room?.resources && (
+                        <RoomResourceList resources={room.resources} />
+                    )}
                 </div>
             </div>
 
-            <Button> Boka Rum </Button>
-            <Button> Visa på kartan </Button>
+            <div className="grid">
+                <Button> Boka Rum </Button>
+                <Button variant="secondary">Visa på kartan</Button>
+            </div>
         </article>
     );
 }

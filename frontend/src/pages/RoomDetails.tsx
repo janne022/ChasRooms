@@ -3,6 +3,7 @@ import { getRoomById } from "@/services/api";
 import { useAtomValue } from "jotai";
 import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
+import RoomDetailsCard from "@/components/room/RoomDetailsCard";
 
 export default function RoomDetails() {
     const { id } = useParams();
@@ -14,7 +15,7 @@ export default function RoomDetails() {
     } = useQuery({
         queryFn: async () => {
             if (!id) return;
-            await getRoomById(token, id);
+            return await getRoomById(token, id);
         },
         queryKey: ["rooms", id],
         enabled: !!token,
@@ -28,5 +29,5 @@ export default function RoomDetails() {
         return <div> Fel vid hämtning av rum {id} </div>;
     }
 
-    return <></>;
+    return <>{room && <RoomDetailsCard />}</>;
 }
