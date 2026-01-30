@@ -27,13 +27,6 @@ namespace ChasRooms.Server.Features.Bookings.GetBooking
             try
             {
                 Guid id = Route<Guid>("id");
-            }
-            catch (Exception)
-            {
-                ThrowError("Invalid booking id, are you using the Guid?!");
-            }
-            try
-            {
                 var result = await _bus.InvokeAsync<BookingDto>(
                     new GetBookingCommand(id), ct);
                 await Send.OkAsync(result, ct);
