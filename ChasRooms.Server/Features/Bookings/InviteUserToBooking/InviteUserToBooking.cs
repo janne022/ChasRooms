@@ -72,6 +72,7 @@ namespace ChasRooms.Server.Features.Bookings.InviteUserToBooking
         {
             var booking = await db.Bookings
                 .Include(b => b.UserBookings)
+                .Include(b => b.Room)
                 .FirstOrDefaultAsync(b => b.Id == cmd.BookingId, ct);
 
             if (booking == null)
@@ -94,6 +95,14 @@ namespace ChasRooms.Server.Features.Bookings.InviteUserToBooking
             if (booking.UserBookings.Any(ub => ub.UserId == userToInvite.Id))
             {
                 throw new ApplicationException("User is already added to this booking.");
+            }
+
+            // Check if adding another user would exceed room capacity
+            // +1 for the owner who is not in UserBookings, +1 for the user we're adding
+            var currentParticipants = booking.UserBookings.Count + 1;
+            if (currentParticipants + 1 > booking.Room.Capacity)
+            {
+                throw new ApplicationException($"Cannot invite more users. Room capacity ({booking.Room.Capacity}) would be exceeded.");
             }
 
             booking.UserBookings.Add(new UserBooking
