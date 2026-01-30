@@ -1,8 +1,7 @@
 import axios from "axios";
-import { type Room } from "@/lib/atoms";
 import type { Booking } from '@/types/booking';
 import { api } from "./axios";
-
+import { type Room, type RoomById } from "@/types/room";
 
 export const getAllMockRooms = async () => {
     try {
@@ -17,8 +16,7 @@ export const getAllMockRooms = async () => {
 };
 
 
-export const createBooking = async ( booking: Booking): Promise<{ data?: Booking; error?: string }> => {
-    const token = localStorage.getItem("token")?.slice(1, -1);
+export const createBooking = async ( booking: Booking, token: string): Promise<{ data?: Booking; error?: string }> => {
 
     try {
         const response = await api.post<Booking>(
@@ -34,13 +32,43 @@ export const createBooking = async ( booking: Booking): Promise<{ data?: Booking
         return { data: response.data };
     } catch (err) {
         if (axios.isAxiosError(err)) {
-        return {
-            error:
-            err.response?.data?.message ??
-            "Failed to create booking",
-        };
+            return {
+                error:
+                err.response?.data?.message ??
+                "Failed to create booking",
+            };
         }
 
         return { error: "Unexpected error occurred" };
+    }
+}
+
+export const getAllRooms = async (token: string) => {
+    try {
+        const response = await axios.get("/api/rooms", {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        return response.data.rooms as Room[];
+    } catch (error) {
+        console.error("Error fetching rooms:", error);
+        throw error;
+    }
+};
+
+export const getRoomById = async (token: string, id: string) => {
+    try {
+        const response = await axios.get(`/api/rooms/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        return response.data.room as RoomById;
+    } catch (error) {
+        console.error("Error fetching rooms:", error);
+        throw error;
     }
 };

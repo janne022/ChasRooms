@@ -1,8 +1,10 @@
-import { Description, Dialog, DialogPanel, DialogTitle, Field, Fieldset, Input, Label } from '@headlessui/react'
+import {  Dialog, DialogPanel, DialogTitle, Field, Fieldset, Input, Label } from '@headlessui/react'
 import Button from '../ui/Button'
 import { useState } from 'react';
 import type { Booking, BookingForm } from '@/types/booking';
 import { createBooking } from '@/services/api';
+import { useAtomValue } from 'jotai';
+import { tokenAtom } from '@/lib/atoms';
 
 //add popup for error/ success
 
@@ -25,6 +27,9 @@ const BookingModal:React.FC<BookingModalProps> = ({isOpen, onCancel, roomId, roo
     description: ""
   });
 
+  const token = useAtomValue(tokenAtom);
+  
+
   const handleBooking = async () => {
     // add field for description
 
@@ -38,7 +43,7 @@ const BookingModal:React.FC<BookingModalProps> = ({isOpen, onCancel, roomId, roo
       description: booking.description 
     };
 
-    const response = await createBooking(formattedBooking)
+    const response = await createBooking(formattedBooking, token)
       if (response.error) {
         showToast(response.error, "error");
         return;
@@ -52,28 +57,27 @@ const BookingModal:React.FC<BookingModalProps> = ({isOpen, onCancel, roomId, roo
     <>
       <Dialog open={isOpen} onClose={onCancel} className="relative z-50">
         <div className="fixed inset-0 bg-black/30" aria-hidden="true" />  {/* backdrop */}
-        <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
-          <DialogPanel className="max-w-lg space-y-4 border bg-white p-8">
-            <DialogTitle className="font-bold my-0.5">Boka rum {roomId}</DialogTitle>
-            <Description className="my-0.5">Boka rum för att plugga</Description>
+        <div className="fixed inset-0 flex w-screen items-center justify-center">
+          <DialogPanel className="max-w-3xl w-[80%] space-y-4 border bg-white p-7 rounded-2xl">
+            <DialogTitle className="font-bold my-0.5 text-xl">Boka rum {roomId}</DialogTitle>
             <Fieldset>
-              <Field className="m-1">
+              <Field className="m-2">
                 <Label className="block">Datum</Label>
-                <Input className="mt-1 block w-full  default-bg" type='date' value={booking.date} onChange={(e) => setBooking({...booking, date:e.target.value})} />
+                <Input className="mt-2 block w-full  default-bg" type='date' value={booking.date} onChange={(e) => setBooking({...booking, date:e.target.value})} />
               </Field>
               <div className='flex'>
                 <Field className="w-1/2 m-1">
                   <Label className="block">Från</Label>
-                  <Input className="mt-1 block default-bg" type='time' value={booking.from} onChange={(e) => setBooking({...booking, from:e.target.value})}/>
+                  <Input className="mt-2 block default-bg" type='time' value={booking.from} onChange={(e) => setBooking({...booking, from:e.target.value})}/>
                 </Field>
-                <Field className="w-1/2 m-1">
+                <Field className="w-1/2 m-2">
                   <Label className="block">Till</Label>
-                  <Input className="mt-1 block default-bg" type='time' value={booking.to} onChange={(e) => setBooking({...booking, to:e.target.value})} />
+                  <Input className="mt-2 block default-bg" type='time' value={booking.to} onChange={(e) => setBooking({...booking, to:e.target.value})} />
                 </Field>
               </div>
-              <Field className="m-1">
+              <Field className="m-2">
                 <Label className="block">Description</Label>
-                <Input className="mt-1 block w-full  default-bg" type='text' value={booking.description} onChange={(e) => setBooking({...booking, description:e.target.value})} />
+                <Input className="mt-2 block w-full  default-bg" type='text' value={booking.description} onChange={(e) => setBooking({...booking, description:e.target.value})} />
               </Field>
 
             </Fieldset>

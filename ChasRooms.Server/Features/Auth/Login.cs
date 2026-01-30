@@ -1,5 +1,5 @@
 ﻿using ChasRooms.Server.Domain.DTOs.Auth;
-using ChasRooms.Server.Domain.DTOs.Entities;
+using ChasRooms.Server.Domain.Entities;
 using ChasRooms.Server.Features.Auth;
 using FastEndpoints;
 using FastEndpoints.Security;

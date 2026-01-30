@@ -1,26 +1,34 @@
-import type { AvailabilityType } from "@/types/room"
-import type React from "react"
+import { capitalizeString } from "@/lib/utils";
+import type { RoomStatus } from "@/types/room";
+import type React from "react";
+import clsx from "clsx";
 
 export interface StatusBadgeProps {
-  availability: AvailabilityType
+    status: RoomStatus;
+    className?: string;
 }
 
-const availabilityColor: Record<AvailabilityType, string> = {
-  Available: "bg-green-300",
-  Occupied: "bg-red-400",
-  "Occupied soon": "bg-orange-300",
-  "Available soon": "bg-yellow-200",
+const availabilityColor: Record<RoomStatus, string> = {
+    available: "bg-green-400",
+    occupied: "bg-red-400",
 };
 
-const StatusBadge: React.FC<StatusBadgeProps> = ({availability}) => {
-  return (
-    <div 
-      className={`absolute top-3 right-2 p-1.5 rounded-2xl ${availabilityColor[availability]}`}
-      aria-label={`Room status: ${availability}`}
-    >
-      <p className="text-sm font-medium inline-flex items-center"> • {availability}</p>
-    </div>
-  )
-}
+const StatusBadge: React.FC<StatusBadgeProps> = ({ status, className }) => {
+    return (
+        <div
+            className={clsx(
+                ` absolute top-3 right-2 rounded-2xl p-1.5 ${availabilityColor[status]}`,
+                className,
+            )}
+        >
+            <p
+                className="inline-flex items-center text-sm font-medium text-white"
+                aria-live="polite"
+            >
+                • {capitalizeString(status)}
+            </p>
+        </div>
+    );
+};
 
-export default StatusBadge
+export default StatusBadge;

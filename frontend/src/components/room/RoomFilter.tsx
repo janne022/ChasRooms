@@ -7,15 +7,15 @@ export default function RoomFilter() {
 
     return (
         <TabGroup>
-            <TabList>
+            <TabList className="mt-3">
                 <Tab
-                    className="cursor-pointer rounded-2xl bg-gray-100 p-4 hover:bg-gray-200 focus:bg-gray-200 data-selected:bg-gray-200"
+                    className="cursor-pointer  default-bg p-2 mr-3"
                     onClick={() => setFilterValue("all")}
                 >
                     Alla rum
                 </Tab>
                 <Tab
-                    className="cursor-pointer rounded-2xl bg-gray-100 p-4 hover:bg-gray-200 focus:bg-gray-200 data-selected:bg-gray-200"
+                    className="cursor-pointer default-bg p-2"
                     onClick={() => setFilterValue("available")}
                 >
                     Bara lediga

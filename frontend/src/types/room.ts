@@ -1,23 +1,25 @@
-export type AvailabilityType = 
-  | "Available" 
-  | "Occupied" 
-  | "Occupied soon" 
-  | "Available soon"
+export type RoomStatus = "available" | "occupied";
 
-export type EquipmentType =
-  | "TV"
-  | "Whiteboard"
-  | "HDMI-cable"
-  | "Projector"
-  | "Speaker";
+export type Room = {
+    id: number;
+    previewUrl?: string;
+    roomName: string;
+    capacity: number;
+    features: string;
+    isOccupied: boolean;
+};
 
-
-export interface Room  {
-  roomNumber: number,
-  capacity: number,
-  availability: AvailabilityType,
-  roomName: string,
-  equipment: EquipmentType[],
-  image: string
-}
-
+export type RoomById = {
+    id: number;
+    previewUrl?: string;
+    name: string;
+    capacity: number;
+    resources: string[];
+    isOccupied: boolean;
+    bookings: [
+        {
+            start: Date;
+            end: Date;
+        },
+    ];
+};
