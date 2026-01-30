@@ -56,7 +56,7 @@ namespace ChasRooms.Server.Features.Bookings.InviteUserToBooking
             try
             {
                 var response = await _bus.InvokeAsync<InviteUserToBookingResponse>(command, ct);
-                await SendOkAsync(response, ct);
+                await Send.OkAsync(response, ct);
             }
             catch (ApplicationException ex)
             {
