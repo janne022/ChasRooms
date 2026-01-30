@@ -27,7 +27,7 @@ const RoomCard: React.FC<RoomCardProps> = ({
                         className="cardImg"
                     />
                 </div>
-                <div className="grid gap-y-2 p-3 relative">
+                <div className="relative grid gap-y-2 p-3">
                     <div className="flex items-center justify-between">
                         <div>
                             <h3>{roomName}</h3>

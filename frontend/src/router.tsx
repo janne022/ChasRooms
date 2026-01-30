@@ -3,6 +3,7 @@ import App from "@/App";
 import Home from "@pages/Home";
 import ComponentDemo from "@pages/ComponentDemo";
 import RoomDetails from "@pages/RoomDetails";
+import MyBookings from "@pages/MyBookings";
 
 import Login from "@pages/Login";
 import { RequireAuth, RequireGuest } from "./components/auth/AuthGuard";
@@ -21,6 +22,11 @@ export const router = createBrowserRouter([
             {
                 path: "/rooms/:id",
                 element: <RoomDetails />,
+            },
+
+            {
+                path: "/my-bookings",
+                element: <MyBookings />,
             },
 
             {
