@@ -50,7 +50,7 @@ namespace ChasRooms.Server.Features.Bookings.DeleteBooking
             try
             {
                 var response = await _bus.InvokeAsync<DeleteBookingResponse>(command, ct);
-                await SendOkAsync(response, ct);
+                await Send.OkAsync(response, ct);
             }
             catch (ApplicationException ex)
             {
