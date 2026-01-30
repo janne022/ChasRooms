@@ -14,12 +14,17 @@ namespace ChasRooms.Server.Features.Auth
         [Transactional]
         public static async Task<LoginResponse> Handle(LoginCommand cmd, UserManager<User> userManager, IConfiguration config)
         {
-            var user = await userManager.FindByEmailAsync(cmd.Payload.Email);
-            bool isNewUser = false;
+            var email = cmd.Payload.Email;
+
+            if (!email.EndsWith("@chasacademy.se", StringComparison.OrdinalIgnoreCase))
+            {
+                throw new ApplicationException("Only @chasacademy.se email addresses are allowed to register.");
+            }
+
+            var user = await userManager.FindByEmailAsync(email);
 
             if (user is null)
             {
-                isNewUser = true;
                 user = new User
                 {
                     UserName = cmd.Payload.Email,

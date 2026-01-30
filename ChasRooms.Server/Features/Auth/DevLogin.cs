@@ -35,7 +35,7 @@ namespace ChasRooms.Server.Features.Auth
             // Create fake payload
             var fakePayload = new GoogleJsonWebSignature.Payload
             {
-                Email = "developer@chasrooms.com",
+                Email = "developer@chasacademy.se",
                 GivenName = "Dev",
                 FamilyName = "Eloper",
                 Subject = "dev_user_123456",
