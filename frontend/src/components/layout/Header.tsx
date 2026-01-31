@@ -1,7 +1,7 @@
-import logo from "@assets/images/piglinhead.webp";
 import { Link } from "react-router";
+import logo from "@assets/images/piglinhead.webp";
 
-const Header = () => {
+export default function Header() {
     return (
         <div className="fixed left-1/2 z-50 m-2 flex w-[95%] max-w-5xl -translate-x-1/2 items-center justify-between gap-2 rounded-2xl border bg-white p-2">
             <div className="flex items-center">
@@ -11,6 +11,4 @@ const Header = () => {
             <Link to="/my-bookings"> Mina bookingar </Link>
         </div>
     );
-};
-
-export default Header;
+}

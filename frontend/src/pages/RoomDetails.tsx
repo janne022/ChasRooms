@@ -1,10 +1,10 @@
-import { tokenAtom } from "@/lib/atoms";
 import { getRoomById } from "@/services/api";
 import { useAtomValue } from "jotai";
 import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
-import RoomDetailsCard from "@/components/room/RoomDetailsCard";
+import { tokenAtom } from "@/lib/atoms";
 
+import RoomDetailsCard from "@/components/room/RoomDetailsCard";
 import RoomBookingsList from "@/components/room/RoomBookingList";
 import GoBackButton from "@/components/GoBackButton";
 import BuildingMapModal from "@/components/BuildingMapModal";
@@ -33,18 +33,19 @@ export default function RoomDetails() {
         return <div> Fel vid hämtning av rum {id} </div>;
     }
 
+    if (!room) {
+        return null;
+    }
+
     return (
-        <>
-            {room && (
-                <div>
-                    <GoBackButton />
-                    <div className="p-5">
-                        <RoomDetailsCard />
-                        <RoomBookingsList bookings={room?.bookings} />
-                    </div>
-                    <BuildingMapModal />
-                </div>
-            )}
-        </>
+        <div>
+            <GoBackButton />
+
+            <div className="p-5">
+                <RoomDetailsCard />
+                <RoomBookingsList bookings={room.bookings} />
+            </div>
+            <BuildingMapModal />
+        </div>
     );
 }

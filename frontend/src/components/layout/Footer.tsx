@@ -1,10 +1,7 @@
-
-const Footer = () => {
-  return (
-    <div className="">
-      <p className="text-center p-3">All rights reserved Piglins</p>
-    </div>
-  )
+export default function Footer() {
+    return (
+        <div>
+            <p className="p-3 text-center">All rights reserved Piglins</p>
+        </div>
+    );
 }
-
-export default Footer

@@ -3,13 +3,12 @@ import RoomResourceList from "@components/room/RoomResourceList";
 import Button from "@components/ui/Button";
 import roomPreviewPlaceholder from "@assets/images/room-preview-placeholder.png";
 import StatusBadge from "./StatusBadge";
-import { isBuildingMapOpenAtom, tokenAtom } from "@/lib/atoms";
+import { isBuildingMapOpenAtom, tokenAtom } from "@lib/atoms";
 import { getRoomById } from "@/services/api";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import BookingModal from "./BookingModal";
-import { Toast } from "../ui/Toast";
 import { useState } from "react";
 
 export default function RoomDetailsCard() {
@@ -30,14 +29,6 @@ export default function RoomDetailsCard() {
     });
 
     const [isOpen, setIsOpen] = useState(false);
-    const [toast, setToast] = useState<{
-        open: boolean;
-        message: string;
-        type?: "success" | "error";
-    }>({
-        open: false,
-        message: "",
-    });
 
     const showToast = (
         message: string,
@@ -110,12 +101,6 @@ export default function RoomDetailsCard() {
                 roomId={room?.id ?? 1}
                 roomName="Sun"
                 showToast={showToast}
-            />
-            <Toast
-                open={toast.open}
-                message={toast.message}
-                type={toast.type}
-                onClose={() => setToast((prev) => ({ ...prev, open: false }))}
             />
         </article>
     );
