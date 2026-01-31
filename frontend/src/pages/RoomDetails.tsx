@@ -7,8 +7,8 @@ import { tokenAtom } from "@/lib/atoms";
 import RoomDetailsCard from "@components/room/RoomDetailsCard";
 import RoomBookingsList from "@components/room/RoomBookingList";
 import GoBackButton from "@components/GoBackButton";
-import BuildingMapModal from "@components/BuildingMapModal";
-import BookingModal from "@components/room/BookingModal";
+import BuildingMapModal from "@components/modals/BuildingMapModal";
+import BookingModal from "@components/modals/BookingModal";
 
 export default function RoomDetails() {
     const { id } = useParams();

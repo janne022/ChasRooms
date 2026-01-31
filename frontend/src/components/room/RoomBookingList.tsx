@@ -8,11 +8,14 @@ interface RoomBookingsListProps {
 const toDate = (value: Date | string): Date =>
     value instanceof Date ? value : new Date(value);
 
-const RoomBookingsList = ({ bookings }: RoomBookingsListProps) => {
-    const normalizedBookings = bookings.map((booking) => ({
-        start: toDate(booking.start),
-        end: toDate(booking.end),
-    }));
+export default function RoomBookingsList({ bookings }: RoomBookingsListProps) {
+    const normalizedBookings = bookings.map((booking) => {
+        console.log(typeof booking.end);
+        return {
+            start: toDate(booking.start),
+            end: toDate(booking.end),
+        };
+    });
 
     return (
         <div className="card mt-3">
@@ -43,6 +46,4 @@ const RoomBookingsList = ({ bookings }: RoomBookingsListProps) => {
             </ul>
         </div>
     );
-};
-
-export default RoomBookingsList;
+}

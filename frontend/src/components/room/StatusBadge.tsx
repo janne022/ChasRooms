@@ -1,5 +1,4 @@
 import type { RoomStatus } from "@/types/room";
-import type React from "react";
 import clsx from "clsx";
 
 export interface StatusBadgeProps {
@@ -12,11 +11,11 @@ const availabilityColor: Record<RoomStatus, string> = {
     occupied: "bg-red-400",
 };
 
-const StatusBadge: React.FC<StatusBadgeProps> = ({ status, className }) => {
+export default function StatusBadge({ status, className }: StatusBadgeProps) {
     return (
         <div
             className={clsx(
-                ` absolute top-3 right-2 rounded-2xl p-1.5 ${availabilityColor[status]}`,
+                `absolute top-3 right-2 rounded-2xl p-1.5 ${availabilityColor[status]}`,
                 className,
             )}
         >
@@ -28,6 +27,4 @@ const StatusBadge: React.FC<StatusBadgeProps> = ({ status, className }) => {
             </p>
         </div>
     );
-};
-
-export default StatusBadge;
+}

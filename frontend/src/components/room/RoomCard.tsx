@@ -7,14 +7,14 @@ import roomPreviewPlaceholder from "@assets/images/room-preview-placeholder.png"
 
 type RoomCardProps = Room;
 
-const RoomCard: React.FC<RoomCardProps> = ({
+export default function RoomCard({
     id,
     previewUrl,
     roomName,
     capacity,
     features,
     isOccupied,
-}: RoomCardProps) => {
+}: RoomCardProps) {
     const status = !isOccupied ? "available" : "occupied";
 
     return (
@@ -43,6 +43,4 @@ const RoomCard: React.FC<RoomCardProps> = ({
             </div>
         </Link>
     );
-};
-
-export default RoomCard;
+}
