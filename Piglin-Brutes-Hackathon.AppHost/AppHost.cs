@@ -1,28 +1,49 @@
+using Google.Protobuf.WellKnownTypes;
+using YamlDotNet.Core.Tokens;
+using Microsoft.Extensions.Configuration;
+
 var builder = DistributedApplication.CreateBuilder(args);
+
+var googleClientId = builder.Configuration["Google:ClientId"];
+var jwtKey = builder.Configuration["Jwt:Key"];
 
 var cache = builder.AddRedis("cache");
 
-var server = builder.AddProject<Projects.Piglin_Brutes_Hackathon_Server>("server")
-    .WithReference(cache)
-    .WaitFor(cache)
-    .WithHttpHealthCheck("/health")
-    .WithExternalHttpEndpoints();
+var postgresPort = builder.Configuration.GetValue<int>("Postgres:HostPort", 5432);
 var postgresPassword = builder.AddParameter("postgres-password", "postgres");
-var postgres = builder.AddPostgres("database", password: postgresPassword)
+var postgres = builder.AddPostgres("database", password: postgresPassword, port: postgresPort)
     .WithContainerName("piglin-db")
     .WithLifetime(ContainerLifetime.Persistent)
-    .WithHostPort(port: 5432)
     .WithDataVolume()
     .WithPgAdmin(pg =>
     {
         pg.WithLifetime(ContainerLifetime.Persistent);
         pg.WithVolume("pg-admin", "/var/lib/pgadmin");
-    });
+    })
+    .AddDatabase("chasrooms-db");
+
+var server = builder.AddProject<Projects.ChasRooms_Server>("server")
+    .WithReference(cache)
+    .WithReference(postgres)
+    .WaitFor(postgres)
+    .WaitFor(cache)
+    .WithHttpHealthCheck("/health")
+    .WithExternalHttpEndpoints()
+    .WithEnvironment("Google:ClientId", googleClientId)
+    .WithEnvironment("Jwt:Key", jwtKey);
+
+// Set text for urls
+server.WithUrl($"{server.GetEndpoint("https")}/swagger/index.html", "Swagger");
 
 var webfrontend = builder.AddViteApp("webfrontend", "../frontend")
     .WithReference(server)
-    .WithReference(postgres)
-    .WaitFor(server);
+    .WaitFor(server)
+    .WithEndpoint("http", endpoint =>
+    {
+        endpoint.Port = 5173;
+    })
+    .WithEnvironment("VITE_API_URL", server.GetEndpoint("http"))
+    .WithEnvironment("VITE_GOOGLE_CLIENT_ID", googleClientId);
 
 server.PublishWithContainerFiles(webfrontend, "wwwroot");
 
