@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useAtomValue } from "jotai";
-import { tokenAtom } from "@/lib/atoms";
+import { useAtomValue, useAtom } from "jotai";
+import { isBookingModalOpenAtom, tokenAtom } from "@/lib/atoms";
 import { createBooking } from "@/services/api";
 import {
     Dialog,
@@ -13,31 +13,26 @@ import {
 } from "@headlessui/react";
 import Button from "@components/ui/Button";
 import type { Booking, BookingForm } from "@/types/booking";
+import { useToast } from "@/hooks/useToast";
 
 interface BookingModalProps {
-    isOpen: boolean;
     roomId: number;
     roomName: string;
-    onCancel: () => void;
-    showToast: (message: string, type?: "success" | "error") => void;
 }
 
 // TODO: Add react hook form + validation with zod
-export default function BookingModal({
-    isOpen,
-    onCancel,
-    roomId,
-    roomName,
-    showToast,
-}: BookingModalProps) {
+export default function BookingModal({ roomId, roomName }: BookingModalProps) {
     const [booking, setBooking] = useState<BookingForm>({
         date: "",
         from: "",
         to: "",
         description: "",
     });
-
     const token = useAtomValue(tokenAtom);
+    const [isBookingModalOpen, setIsBookingModalOpen] = useAtom(
+        isBookingModalOpenAtom,
+    );
+    const { show } = useToast();
 
     const handleBooking = async () => {
         const startDateTime = new Date(`${booking.date}T${booking.from}`);
@@ -51,20 +46,26 @@ export default function BookingModal({
         };
 
         const response = await createBooking(formattedBooking, token);
+
         if (response.error) {
-            showToast(response.error, "error");
+            show(response.error, "error");
             return;
         }
 
-        showToast("Booking confirmed! 🎉", "success");
-        onCancel();
+        show("Booking confirmed! 🎉", "success");
+        setIsBookingModalOpen(false);
     };
 
     return (
         <>
-            <Dialog open={isOpen} onClose={onCancel} className="relative z-50">
-                <div className="fixed inset-0 bg-black/30" aria-hidden="true" />{" "}
+            <Dialog
+                open={isBookingModalOpen}
+                onClose={() => setIsBookingModalOpen(false)}
+                className="relative z-50"
+            >
                 {/* backdrop */}
+                <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+
                 <div className="fixed inset-0 flex w-screen items-center justify-center">
                     <DialogPanel className="w-[80%] max-w-3xl space-y-4 rounded-2xl border bg-white p-7">
                         <DialogTitle className="my-0.5 text-xl font-bold">

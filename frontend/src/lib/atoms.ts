@@ -9,6 +9,7 @@ type ToastState = {
 
 export const filterValueAtom = atom<"all" | "available">("all");
 export const isBuildingMapOpenAtom = atom(false);
+export const isBookingModalOpenAtom = atom(false);
 export const toastStateAtom = atom<ToastState>({
     open: false,
     message: "",

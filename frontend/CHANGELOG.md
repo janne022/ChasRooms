@@ -1,2 +1,0 @@
-- Refactor all component to be written in same function style
-- Refactor Toaster to use atom state for less prop drilling

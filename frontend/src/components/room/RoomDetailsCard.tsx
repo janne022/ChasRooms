@@ -3,18 +3,21 @@ import RoomResourceList from "@components/room/RoomResourceList";
 import Button from "@components/ui/Button";
 import roomPreviewPlaceholder from "@assets/images/room-preview-placeholder.png";
 import StatusBadge from "./StatusBadge";
-import { isBuildingMapOpenAtom, tokenAtom } from "@lib/atoms";
+import {
+    isBookingModalOpenAtom,
+    isBuildingMapOpenAtom,
+    tokenAtom,
+} from "@lib/atoms";
 import { getRoomById } from "@/services/api";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
-import BookingModal from "./BookingModal";
-import { useState } from "react";
 
 export default function RoomDetailsCard() {
     const { id } = useParams();
     const token = useAtomValue(tokenAtom);
     const setIsBuildingMapOpen = useSetAtom(isBuildingMapOpenAtom);
+    const setIsBookingModalOpen = useSetAtom(isBookingModalOpenAtom);
     const {
         data: room,
         isPending,
@@ -27,20 +30,6 @@ export default function RoomDetailsCard() {
         queryKey: ["rooms", id],
         enabled: !!token,
     });
-
-    const [isOpen, setIsOpen] = useState(false);
-
-    const showToast = (
-        message: string,
-        type: "success" | "error" = "success",
-        duration = 3000,
-    ) => {
-        setToast({ open: true, message, type });
-        setTimeout(
-            () => setToast((prev) => ({ ...prev, open: false })),
-            duration,
-        );
-    };
 
     if (isPending) {
         return <div> Laddar ... </div>;
@@ -79,29 +68,20 @@ export default function RoomDetailsCard() {
 
             <div className="grid gap-2 p-2">
                 <Button
-                    onClick={() => setIsOpen(true)}
+                    onClick={() => setIsBookingModalOpen(true)}
                     className="default-bg p-2"
                 >
-                    {" "}
-                    Boka Rum{" "}
+                    Boka Rum
                 </Button>
                 <Button
                     className="rounded-2xl border p-2"
                     onClick={() => {
-                        console.log("building map open");
                         setIsBuildingMapOpen(true);
                     }}
                 >
                     Visa på kartan
                 </Button>
             </div>
-            <BookingModal
-                isOpen={isOpen}
-                onCancel={() => setIsOpen(false)}
-                roomId={room?.id ?? 1}
-                roomName="Sun"
-                showToast={showToast}
-            />
         </article>
     );
 }

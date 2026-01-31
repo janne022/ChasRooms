@@ -81,8 +81,6 @@ export const getMyBookings = async (token: string) => {
             },
         });
 
-        console.log(response.data.bookings);
-
         return response.data.bookings as MyBookings[];
     } catch (error) {
         console.error("Error fetching rooms:", error);
