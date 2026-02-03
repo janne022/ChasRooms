@@ -8,8 +8,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ChasRooms.Server.Features.Bookings.GetBooking
 {
+    public record GetBookingRequest()
+    {
+        public Guid Id {  get; init; }
+    }
     public record GetBookingCommand(Guid Id);
-    public class GetBooking : EndpointWithoutRequest<BookingDto>
+    public class GetBooking : Endpoint<GetBookingRequest, BookingDto>
     {
         private readonly IMessageBus _bus;
         public GetBooking(IMessageBus bus)
@@ -22,56 +26,49 @@ namespace ChasRooms.Server.Features.Bookings.GetBooking
             Claims("UserId");
         }
 
-        public override async Task HandleAsync(CancellationToken ct)
+        public override async Task HandleAsync(GetBookingRequest req,CancellationToken ct)
         {
-            try
+            var result = await _bus.InvokeAsync<BookingDto?>(
+                            new GetBookingCommand(req.Id), ct);
+
+            if (result is null)
             {
-                Guid id = Route<Guid>("id");
-                var result = await _bus.InvokeAsync<BookingDto>(
-                    new GetBookingCommand(id), ct);
-                await Send.OkAsync(result, ct);
+                await Send.NotFoundAsync(ct);
+                return;
             }
-            catch (ApplicationException ex)
-            {
-                ThrowError(ex.Message);
-            }
+
+            await Send.OkAsync(result, ct);
         }
     }
 
     public static class GetBookingHandler
     {
         [Transactional]
-        public static async Task<BookingDto> Handle(GetBookingCommand cmd, RoomDbContext db, CancellationToken ct)
+        public static async Task<BookingDto?> Handle(GetBookingCommand cmd, RoomDbContext db, CancellationToken ct)
         {
-            var booking = await db.Bookings
-                .Include(b => b.Room)
-                .Include(b => b.UserBookings)
-                    .ThenInclude(ub => ub.User)
-                .FirstOrDefaultAsync(b => b.Id == cmd.Id, ct);
-
-            return booking is null
-                ? throw new ApplicationException($"Found no booking with the id: {cmd.Id}")
-                : new BookingDto
-            {
-                Id = booking.Id,
-                Name = booking.Name,
-                Description = booking.Description,
-                BookingStartTime = booking.BookingStartTime,
-                BookingEndTime = booking.BookingEndTime,
-                Room = new RoomDto
+            return await db.Bookings
+                .Where(b => b.Id == cmd.Id)
+                .Select(b => new BookingDto
                 {
-                    Id = booking.Room.Id,
-                    Capacity = booking.Room.Capacity,
-                    Features = booking.Room.Features,
-                    RoomName = booking.Room.RoomName
-                },
-                Users = [.. booking.UserBookings.Select(ub => new UserDto
-                {
-                    UserId = ub.User.Id,
-                    FirstName = ub.User.FirstName,
-                    LastName = ub.User.LastName,
-                })],
-            };
+                    Id = b.Id,
+                    Name = b.Name,
+                    Description = b.Description,
+                    BookingStartTime = b.BookingStartTime,
+                    BookingEndTime = b.BookingEndTime,
+                    Room = new RoomDto
+                    {
+                        Id = b.Room.Id,
+                        RoomName = b.Room.RoomName,
+                        Capacity = b.Room.Capacity,
+                        Features = b.Room.Features
+                    },
+                    Users = b.UserBookings.Select(ub => new UserDto
+                    {
+                        UserId = ub.User.Id,
+                        FirstName = ub.User.FirstName,
+                        LastName = ub.User.LastName,
+                    }).ToList()
+                }).FirstOrDefaultAsync(ct);
         }
     }
 }
