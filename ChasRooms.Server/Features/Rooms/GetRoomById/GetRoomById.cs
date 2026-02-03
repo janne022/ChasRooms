@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ChasRooms.Server.Domain.DTOs;
+using ChasRooms.Server.Features.Rooms.GetRoomById.DTOs;
 using ChasRooms.Server.Infrastructure.Persistance;
 using FastEndpoints;
+using Microsoft.EntityFrameworkCore;
 using Wolverine;
-using ChasRooms.Server.Features.Rooms.GetRoomById.DTOs;
 
 namespace ChasRooms.Server.Features.Rooms.GetRoomById
 {
@@ -46,9 +47,26 @@ namespace ChasRooms.Server.Features.Rooms.GetRoomById
     {
         public static async Task<RoomDetailsDto?> Handle(GetRoomByIdCommand cmd, RoomDbContext db, CancellationToken ct)
         {
-            var now = DateTime.Now;
+            var now = DateTime.UtcNow;
 
-            var room = await db.Rooms.Include(r => r.Bookings).FirstOrDefaultAsync(r => r.Id == cmd.Id, ct);
+            var room = await db.Rooms
+                .Where(r => r.Id == cmd.Id)
+                .Select(r => new
+                {
+                    Room = r,
+                    IsOccupied = r.Bookings.Any(b =>
+                    b.BookingStartTime <= now &&
+                    b.BookingEndTime > now),
+                    ActiveBookings = r.Bookings
+                    .Where(b => b.BookingEndTime >= now)
+                    .OrderBy(b => b.BookingStartTime)
+                    .Select(b => new BookingSlotDto
+                    {
+                        Id = b.Id,
+                        Start = b.BookingStartTime,
+                        End = b.BookingEndTime
+                    }).ToList()
+            }).FirstOrDefaultAsync(ct);
 
             if (room == null)
             {
@@ -57,25 +75,14 @@ namespace ChasRooms.Server.Features.Rooms.GetRoomById
 
             return new RoomDetailsDto
             {
-                Id = room.Id,
-                Name = room.RoomName,
-                Capacity = room.Capacity,
-                IsOccupied = room.Bookings.Any(b =>
-                    b.BookingStartTime <= now &&
-                    b.BookingEndTime > now),
-                Resources = string.IsNullOrEmpty(room.Features)
-                    ? new List<string>()
-                    : room.Features.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList(),
-                Bookings = room.Bookings
-                    .Where(b => b.BookingEndTime >= now)
-                    .OrderBy(b => b.BookingStartTime)
-                    .Select(b => new BookingSlotDto
-                    {
-                        Id = b.Id,
-                        Start = b.BookingStartTime,
-                        End = b.BookingEndTime
-                    })
-                    .ToList()
+                Id = room.Room.Id,
+                Name = room.Room.RoomName,
+                Capacity = room.Room.Capacity,
+                IsOccupied = room.IsOccupied,
+                Resources = string.IsNullOrEmpty(room.Room.Features)
+                            ? new List<string>()
+                            : room.Room.Features.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList(),
+                Bookings = room.ActiveBookings
             };
         }
     }
