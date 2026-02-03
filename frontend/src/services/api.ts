@@ -1,7 +1,7 @@
 import axios from "axios";
-import type { Booking, MyBookings } from "@/types/booking";
-import { api } from "./axios";
-import { type Room, type RoomById } from "@/types/room";
+import { api } from "@services/axios";
+import type { Booking, MyBookings } from "@T/booking";
+import { type Room, type RoomById } from "@T/room";
 
 export const createBooking = async (
     booking: Booking,
@@ -18,8 +18,6 @@ export const createBooking = async (
             },
         );
 
-        console.log("createBooking:", response.data);
-
         return { data: response.data };
     } catch (err) {
         if (axios.isAxiosError(err)) {
@@ -35,13 +33,12 @@ export const createBooking = async (
 
 export const getAllRooms = async (token: string) => {
     try {
-        const response = await axios.get("/api/rooms", {
+        const response = await api.get("/api/rooms", {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         });
 
-        console.log("getAllRooms:", response.data.rooms);
         return response.data.rooms as Room[];
     } catch (error) {
         console.error("Error fetching rooms:", error);
@@ -51,13 +48,12 @@ export const getAllRooms = async (token: string) => {
 
 export const getRoomById = async (token: string, id: string) => {
     try {
-        const response = await axios.get(`/api/rooms/${id}`, {
+        const response = await api.get(`/api/rooms/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         });
 
-        console.log("getRoomById:", response.data.room);
         return response.data.room as RoomById;
     } catch (error) {
         console.error("Error fetching rooms:", error);
@@ -67,13 +63,12 @@ export const getRoomById = async (token: string, id: string) => {
 
 export const getMyBookings = async (token: string) => {
     try {
-        const response = await axios.get(`/api/bookings/my`, {
+        const response = await api.get(`/api/bookings/my`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         });
 
-        console.log("getMyBookings:", response.data.bookings);
         return response.data.bookings as MyBookings[];
     } catch (error) {
         console.error("Error fetching rooms:", error);

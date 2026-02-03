@@ -7,7 +7,11 @@ export const useToast = () => {
     const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const show = useCallback(
-        (message: string, type: string, duration: number = 3000) => {
+        (
+            message: string,
+            type: "success" | "error",
+            duration: number = 3000,
+        ) => {
             // Clear any existing timeout
             if (timeoutRef.current) {
                 clearTimeout(timeoutRef.current);

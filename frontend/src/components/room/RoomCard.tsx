@@ -1,11 +1,8 @@
-import React from "react";
-import StatusBadge from "./StatusBadge";
-import type { Room } from "@/types/room";
 import { UsersIcon } from "lucide-react";
 import { Link } from "react-router";
+import type { Room } from "@T/room";
+import StatusBadge from "@components/room/StatusBadge";
 import roomPreviewPlaceholder from "@assets/images/room-preview-placeholder.png";
-
-type RoomCardProps = Room;
 
 export default function RoomCard({
     id,
@@ -14,7 +11,7 @@ export default function RoomCard({
     capacity,
     features,
     isOccupied,
-}: RoomCardProps) {
+}: Room) {
     const status = !isOccupied ? "available" : "occupied";
 
     return (

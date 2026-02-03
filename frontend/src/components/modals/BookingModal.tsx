@@ -11,11 +11,12 @@ import {
     Label,
 } from "@headlessui/react";
 import Button from "@components/ui/Button";
-import type { Booking } from "@/types/booking";
+import type { Booking } from "@T/booking";
 import { useToast } from "@/hooks/useToast";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface BookingModalProps {
     roomId: number;
@@ -37,6 +38,7 @@ export default function BookingModal({ roomId, roomName }: BookingModalProps) {
         isBookingModalOpenAtom,
     );
     const { show } = useToast();
+    const queryClient = useQueryClient();
 
     const {
         register,
@@ -71,6 +73,7 @@ export default function BookingModal({ roomId, roomName }: BookingModalProps) {
             return;
         }
 
+        queryClient.invalidateQueries({ queryKey: ["rooms", String(roomId)] });
         show("Booking confirmed! 🎉", "success");
         reset();
         setIsBookingModalOpen(false);

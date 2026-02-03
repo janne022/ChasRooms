@@ -1,15 +1,16 @@
+import { useAtomValue, useSetAtom } from "jotai";
 import { UsersIcon } from "lucide-react";
 import RoomResourceList from "@components/room/RoomResourceList";
 import Button from "@components/ui/Button";
+import StatusBadge from "@components/room/StatusBadge";
 import roomPreviewPlaceholder from "@assets/images/room-preview-placeholder.png";
-import StatusBadge from "./StatusBadge";
 import {
     isBookingModalOpenAtom,
     isBuildingMapOpenAtom,
     tokenAtom,
 } from "@lib/atoms";
-import { getRoomById } from "@/services/api";
-import { useAtomValue, useSetAtom } from "jotai";
+import { getRoomById } from "@services/api";
+
 import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 

@@ -1,4 +1,4 @@
-import type { RoomStatus } from "@/types/room";
+import type { RoomStatus } from "@T/room";
 import clsx from "clsx";
 
 export interface StatusBadgeProps {
@@ -12,6 +12,8 @@ const availabilityColor: Record<RoomStatus, string> = {
 };
 
 export default function StatusBadge({ status, className }: StatusBadgeProps) {
+    const badgeText = status === "available" ? "Ledig" : "Upptagen";
+
     return (
         <div
             className={clsx(
@@ -23,7 +25,7 @@ export default function StatusBadge({ status, className }: StatusBadgeProps) {
                 className="inline-flex items-center text-sm font-medium text-white"
                 aria-live="polite"
             >
-                • {status === "available" ? "Ledig" : "Upptagen"}
+                • {badgeText}
             </p>
         </div>
     );
