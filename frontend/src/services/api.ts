@@ -3,18 +3,6 @@ import type { Booking, MyBookings } from "@/types/booking";
 import { api } from "./axios";
 import { type Room, type RoomById } from "@/types/room";
 
-export const getAllMockRooms = async () => {
-    try {
-        await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate a 1-second delay
-
-        const response = await axios.get("/data/rooms.json");
-        return response.data as Room[];
-    } catch (error) {
-        console.error("Error fetching rooms:", error);
-        throw error;
-    }
-};
-
 export const createBooking = async (
     booking: Booking,
     token: string,
@@ -29,6 +17,8 @@ export const createBooking = async (
                 },
             },
         );
+
+        console.log("createBooking:", response.data);
 
         return { data: response.data };
     } catch (err) {
@@ -51,6 +41,7 @@ export const getAllRooms = async (token: string) => {
             },
         });
 
+        console.log("getAllRooms:", response.data.rooms);
         return response.data.rooms as Room[];
     } catch (error) {
         console.error("Error fetching rooms:", error);
@@ -66,6 +57,7 @@ export const getRoomById = async (token: string, id: string) => {
             },
         });
 
+        console.log("getRoomById:", response.data.room);
         return response.data.room as RoomById;
     } catch (error) {
         console.error("Error fetching rooms:", error);
@@ -81,6 +73,7 @@ export const getMyBookings = async (token: string) => {
             },
         });
 
+        console.log("getMyBookings:", response.data.bookings);
         return response.data.bookings as MyBookings[];
     } catch (error) {
         console.error("Error fetching rooms:", error);

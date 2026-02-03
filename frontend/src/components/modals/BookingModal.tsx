@@ -57,11 +57,11 @@ export default function BookingModal({ roomId, roomName }: BookingModalProps) {
         const startDateTime = new Date(`${data.date}T${data.from}`);
         const endDateTime = new Date(`${data.date}T${data.to}`);
         const formattedBooking: Booking = {
+            name: roomName,
+            roomId,
+            description: data.description,
             startTime: startDateTime.toISOString(),
             endTime: endDateTime.toISOString(),
-            roomId,
-            name: roomName,
-            description: data.description,
         };
 
         const response = await createBooking(formattedBooking, token);

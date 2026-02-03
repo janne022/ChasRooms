@@ -1,9 +1,9 @@
 export interface Booking {
     roomId: number;
+    name: string;
+    description: string;
     startTime: string;
     endTime: string;
-    description: string;
-    name: string;
 }
 
 export interface BookingForm {

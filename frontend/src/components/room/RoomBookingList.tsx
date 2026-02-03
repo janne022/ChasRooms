@@ -5,15 +5,11 @@ interface RoomBookingsListProps {
     }[];
 }
 
-const toDate = (value: Date | string): Date =>
-    value instanceof Date ? value : new Date(value);
-
 export default function RoomBookingsList({ bookings }: RoomBookingsListProps) {
     const normalizedBookings = bookings.map((booking) => {
-        console.log(typeof booking.end);
         return {
-            start: toDate(booking.start),
-            end: toDate(booking.end),
+            start: new Date(booking.start),
+            end: new Date(booking.end),
         };
     });
 
@@ -38,7 +34,7 @@ export default function RoomBookingsList({ bookings }: RoomBookingsListProps) {
                         >
                             <span className="font-medium">{date}</span>
                             <span className="text-gray-600">
-                                {startTime} – {endTime}
+                                {startTime} - {endTime}
                             </span>
                         </li>
                     );

@@ -1,8 +1,8 @@
-import { getRoomById } from "@/services/api";
+import { getRoomById } from "@services/api";
 import { useAtomValue } from "jotai";
 import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
-import { tokenAtom } from "@/lib/atoms";
+import { tokenAtom } from "@lib/atoms";
 
 import RoomDetailsCard from "@components/room/RoomDetailsCard";
 import RoomBookingsList from "@components/room/RoomBookingList";
@@ -23,6 +23,7 @@ export default function RoomDetails() {
             return await getRoomById(token, id);
         },
         queryKey: ["rooms", id],
+        staleTime: 0,
         enabled: !!token,
     });
 
