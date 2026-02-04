@@ -1,12 +1,13 @@
-
 import { GoogleLogin } from "@react-oauth/google";
 import { useNavigate, useLocation } from "react-router-dom";
 import { api } from "@services/axios";
-import type { LoginResponse, GoogleLoginRequest } from "@/types/schema";
+import type { LoginResponse, GoogleLoginRequest } from "@T/schema";
 import { useSetAtom } from "jotai";
-import { tokenAtom } from "@/lib/atoms";
+import { tokenAtom } from "@lib/atoms";
+import { useToast } from "@hooks/useToast";
 
 export default function Login() {
+    const { show } = useToast();
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
@@ -28,13 +29,14 @@ export default function Login() {
                 setToken(res.data.token);
             }
 
-            // Probs replace these with toaster notification or something
-            console.log("Login Success!", res.data);
+            show("Login Success!", "success");
+            console.log("Login Success!");
 
             // Send them backto where they came from
             navigate(from, { replace: true });
         } catch (error) {
-            console.error("Login failed:", error);
+            show(`Login failed: ${error}`, "error");
+            console.error("Login failed", error);
         }
     };
 
@@ -45,6 +47,7 @@ export default function Login() {
             navigate("/");
         } catch (error) {
             console.error("Dev login failed", error);
+            show("Dev login failed", "error");
         }
     };
 
@@ -55,7 +58,7 @@ export default function Login() {
 
             <GoogleLogin
                 onSuccess={handleGoogleSuccess}
-                onError={() => console.log("Google Login Failed")}
+                onError={() => show("Google Login Failed", "error")}
             />
             {import.meta.env.DEV && (
                 <div className="mt-8 border-t pt-4">

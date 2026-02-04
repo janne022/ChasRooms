@@ -1,19 +1,7 @@
 import axios from "axios";
-import type { Booking, MyBookings } from "@/types/booking";
-import { api } from "./axios";
-import { type Room, type RoomById } from "@/types/room";
-
-export const getAllMockRooms = async () => {
-    try {
-        await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate a 1-second delay
-
-        const response = await axios.get("/data/rooms.json");
-        return response.data as Room[];
-    } catch (error) {
-        console.error("Error fetching rooms:", error);
-        throw error;
-    }
-};
+import { api } from "@services/axios";
+import type { Booking, MyBookings } from "@T/booking";
+import { type Room, type RoomById } from "@T/room";
 
 export const createBooking = async (
     booking: Booking,
@@ -45,7 +33,7 @@ export const createBooking = async (
 
 export const getAllRooms = async (token: string) => {
     try {
-        const response = await axios.get("/api/rooms", {
+        const response = await api.get("/api/rooms", {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -60,7 +48,7 @@ export const getAllRooms = async (token: string) => {
 
 export const getRoomById = async (token: string, id: string) => {
     try {
-        const response = await axios.get(`/api/rooms/${id}`, {
+        const response = await api.get(`/api/rooms/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -75,13 +63,11 @@ export const getRoomById = async (token: string, id: string) => {
 
 export const getMyBookings = async (token: string) => {
     try {
-        const response = await axios.get(`/api/bookings/my`, {
+        const response = await api.get(`/api/bookings/my`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         });
-
-        console.log(response.data.bookings);
 
         return response.data.bookings as MyBookings[];
     } catch (error) {

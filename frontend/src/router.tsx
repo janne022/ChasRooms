@@ -1,12 +1,11 @@
 import { createBrowserRouter } from "react-router";
 import App from "@/App";
 import Home from "@pages/Home";
-import ComponentDemo from "@pages/ComponentDemo";
 import RoomDetails from "@pages/RoomDetails";
 import MyBookings from "@pages/MyBookings";
 
 import Login from "@pages/Login";
-import { RequireAuth, RequireGuest } from "./components/auth/AuthGuard";
+import { RequireGuest } from "./components/auth/AuthGuard";
 
 export const router = createBrowserRouter([
     {
@@ -27,11 +26,6 @@ export const router = createBrowserRouter([
             {
                 path: "/my-bookings",
                 element: <MyBookings />,
-            },
-
-            {
-                path: "/demo",
-                element: <ComponentDemo />,
             },
         ],
     },

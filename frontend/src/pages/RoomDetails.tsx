@@ -1,13 +1,14 @@
-import { tokenAtom } from "@/lib/atoms";
-import { getRoomById } from "@/services/api";
+import { getRoomById } from "@services/api";
 import { useAtomValue } from "jotai";
 import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
-import RoomDetailsCard from "@/components/room/RoomDetailsCard";
+import { tokenAtom } from "@lib/atoms";
 
-import RoomBookingsList from "@/components/room/RoomBookingList";
-import GoBackButton from "@/components/GoBackButton";
-import BuildingMapModal from "@/components/BuildingMapModal";
+import RoomDetailsCard from "@components/room/RoomDetailsCard";
+import RoomBookingsList from "@components/room/RoomBookingList";
+import GoBackButton from "@components/GoBackButton";
+import BuildingMapModal from "@components/modals/BuildingMapModal";
+import BookingModal from "@components/modals/BookingModal";
 
 export default function RoomDetails() {
     const { id } = useParams();
@@ -22,6 +23,7 @@ export default function RoomDetails() {
             return await getRoomById(token, id);
         },
         queryKey: ["rooms", id],
+        staleTime: 0,
         enabled: !!token,
     });
 
@@ -33,18 +35,20 @@ export default function RoomDetails() {
         return <div> Fel vid hämtning av rum {id} </div>;
     }
 
+    if (!room) {
+        return null;
+    }
+
     return (
-        <>
-            {room && (
-                <div>
-                    <GoBackButton />
-                    <div className="p-5">
-                        <RoomDetailsCard />
-                        <RoomBookingsList bookings={room?.bookings} />
-                    </div>
-                    <BuildingMapModal />
-                </div>
-            )}
-        </>
+        <div>
+            <GoBackButton />
+
+            <div className="p-5">
+                <RoomDetailsCard />
+                <RoomBookingsList bookings={room.bookings} />
+            </div>
+            <BuildingMapModal />
+            <BookingModal roomId={room.id} roomName={room.name} />
+        </div>
     );
 }

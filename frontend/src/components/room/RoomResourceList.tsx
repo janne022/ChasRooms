@@ -1,6 +1,6 @@
-type RoomResourceListProps = {
+interface RoomResourceListProps {
     resources: string[];
-};
+}
 
 export default function RoomResourceList({ resources }: RoomResourceListProps) {
     return (

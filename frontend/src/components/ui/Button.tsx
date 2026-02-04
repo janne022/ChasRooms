@@ -1,9 +1,8 @@
 import React from "react";
 
-type ButtonProps = {
-    children: React.ReactNode;
+interface ButtonProps extends React.ComponentPropsWithRef<"button"> {
     variant?: "primary" | "secondary";
-} & React.ComponentPropsWithRef<"button">;
+}
 
 const buttonVariantsStyles = {
     primary:
