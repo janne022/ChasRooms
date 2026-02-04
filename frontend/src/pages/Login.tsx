@@ -30,11 +30,13 @@ export default function Login() {
             }
 
             show("Login Success!", "success");
+            console.log("Login Success!");
 
             // Send them backto where they came from
             navigate(from, { replace: true });
         } catch (error) {
             show(`Login failed: ${error}`, "error");
+            console.error("Login failed", error);
         }
     };
 
